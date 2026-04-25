@@ -50,7 +50,7 @@ export const MOVIES: Movie[] = [
     genre: "Family",
     genres: ["Family", "Adventure", "Animation"],
     synopsis: "A fearless young wayfinder sails across the ocean with demigod Maui to save her people and discover her destiny.",
-    posterQuery: "https://image.tmdb.org/t/p/original/4JeeleqJm8n2PFlMpgjHhQJxQxQ.jpg",
+    posterQuery: "https://upload.wikimedia.org/wikipedia/en/2/26/Moana_Teaser_Poster.jpg",
     socialProof: 86000,
     director: "Ron Clements",
   },

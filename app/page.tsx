@@ -1,12 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo } from "react"
 import { ArrowRight, Film, Sparkles, Users, Vote, X, History } from "lucide-react"
 import { BrandMark } from "@/components/quorum/brand-mark"
 import { MOVIES } from "@/lib/movies"
-import { Poster } from "@/components/quorum/poster"
-import { AnimatePresence, motion } from "framer-motion"
+import { motion } from "framer-motion"
 
 export default function HomePage() {
   return (
@@ -73,10 +72,8 @@ export default function HomePage() {
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="hero-cinema-bg relative h-[400px] lg:h-auto w-full p-8 overflow-hidden flex items-center justify-center"
+          className="relative h-[360px] sm:h-[460px] lg:h-[560px] w-full overflow-hidden bg-background"
         >
-          <div className="hero-grid absolute inset-0 opacity-10 pointer-events-none" />
-
           <AutoRollingPosterCollage />
         </motion.div>
       </section>
@@ -237,77 +234,41 @@ function AutoRollingPosterCollage() {
     return picks.length === 5 ? picks : MOVIES.slice(0, 5)
   }, [])
 
-  const [lead, setLead] = useState(0)
-
-  useEffect(() => {
-    if (posterPool.length < 2) return
-    const id = window.setInterval(() => {
-      setLead((v) => (v + 1) % posterPool.length)
-    }, 3200)
-    return () => window.clearInterval(id)
-  }, [posterPool])
-
-  const visible = useMemo(() => {
-    return posterPool
-      .map((movie, idx) => ({ movie, idx, diff: circularDiff(idx, lead, posterPool.length) }))
-      .filter((item) => Math.abs(item.diff) <= 2)
-      .sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))
-  }, [lead, posterPool])
+  const loopSlides = useMemo(() => [...posterPool, ...posterPool], [posterPool])
 
   return (
-    <div className="relative z-10 h-[400px] w-full max-w-xl [perspective:1500px]">
-      <div className="absolute left-0 top-1 z-40 flex w-[340px] items-center gap-2 brutal-border bg-foreground px-4 py-1.5 font-pixel text-xs font-black uppercase tracking-[0.2em] text-background">
-        <span>AUTO ROLLING REELS</span>
-        <span className="h-2 w-2 bg-primary" />
-        <span>LIVE SWAP // 3D MODE</span>
-      </div>
-
-      <div className="absolute inset-0 top-10 [transform-style:preserve-3d]">
-        <AnimatePresence initial={false}>
-          {visible.map((item) => {
-            const depth = Math.abs(item.diff)
-            const x = item.diff * 118
-            const z = -depth * 180
-            const rotateY = item.diff * -30
-            const scale = 1 - depth * 0.16
-            const y = 26 + depth * 10
-            const opacity = 1 - depth * 0.2
-            const blur = depth * 1.6
-
-            return (
-              <motion.div
-                key={`${item.movie.id}-${lead}`}
-                initial={{ opacity: 0, x: x * 1.2, z: z - 80, rotateY: rotateY * 1.4, y: y + 18, scale: scale * 0.9 }}
-                animate={{ opacity, x, z, rotateY, y, scale, filter: `blur(${blur}px)` }}
-                exit={{ opacity: 0, x: x * 0.82, z: z - 40, rotateY: rotateY * 0.6, scale: scale * 0.92 }}
-                transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute left-1/2 top-1/2 w-[180px] -translate-x-1/2 -translate-y-1/2 sm:w-[210px]"
-                style={{ zIndex: 100 - depth * 10 }}
-              >
-                <motion.div
-                  animate={{ y: [0, -10, 0], rotateZ: [0, item.diff * 1.6, 0] }}
-                  transition={{ duration: 4.8 + depth * 0.6, repeat: Infinity, ease: "easeInOut" }}
-                  className="brutal-border bg-card p-1.5 brutal-shadow-lg"
-                >
-                  <Poster
-                    movie={item.movie}
-                    fit="contain"
-                    showMeta={false}
-                    className="aspect-[2/3] w-full border-0 shadow-none bg-foreground"
-                  />
-                </motion.div>
-              </motion.div>
-            )
-          })}
-        </AnimatePresence>
+    <div className="relative flex h-full w-full items-center justify-center p-4 sm:p-6">
+      <div className="relative h-full w-full max-w-[420px] sm:max-w-[480px] overflow-hidden brutal-border bg-foreground brutal-shadow-lg">
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 26, ease: "linear", repeat: Infinity }}
+          className="flex h-full w-[1000%]"
+        >
+          {loopSlides.map((movie, index) => (
+            <div
+              key={`${movie.id}-${index}`}
+              className="relative h-full w-[10%] flex-none overflow-hidden"
+            >
+              <img
+                src={movie.posterQuery}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full scale-110 object-cover blur-lg"
+                draggable={false}
+              />
+              <div className="absolute inset-0 bg-foreground/35" />
+              <img
+                src={movie.posterQuery}
+                alt={movie.title}
+                className="relative z-10 h-full w-full object-contain"
+                draggable={false}
+              />
+            </div>
+          ))}
+        </motion.div>
       </div>
     </div>
   )
-}
-
-function circularDiff(index: number, lead: number, length: number) {
-  const raw = (index - lead + length) % length
-  return raw > length / 2 ? raw - length : raw
 }
 
 function Step({
