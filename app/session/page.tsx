@@ -95,28 +95,28 @@ export default function SessionPage() {
     <main className="relative min-h-dvh bg-background pb-40">
       <div className="grain pointer-events-none absolute inset-0" aria-hidden />
 
-      <header className="relative z-50 flex w-full items-center justify-between px-5 py-6 sm:px-8 border-b-8 border-foreground bg-secondary">
+      <header className="relative z-50 flex w-full items-center justify-between px-5 py-4 sm:px-8 border-b-4 border-foreground bg-secondary">
         <Link
           href="/"
-          className="flex h-14 w-14 items-center justify-center brutal-border bg-card brutal-shadow-sm hover:brutal-shadow-hover transition-all hover:-translate-y-1"
+          className="flex h-10 w-10 items-center justify-center brutal-border bg-card brutal-shadow-sm hover:brutal-shadow-hover transition-all hover:-translate-y-1"
           aria-label="Back home"
         >
-          <ArrowLeft className="h-8 w-8" />
+          <ArrowLeft className="h-5 w-5" />
         </Link>
-        <BrandMark withWordmark={false} size={48} />
-        <span className="font-pixel text-xl uppercase tracking-widest text-foreground font-black bg-card brutal-border px-5 py-2 brutal-shadow-sm">
+        <BrandMark withWordmark={false} size={32} />
+        <span className="font-pixel text-sm uppercase tracking-widest text-foreground font-black bg-card brutal-border px-4 py-1.5 brutal-shadow-sm">
           Step {step + 1} / 3
         </span>
       </header>
 
       <div className="relative z-10 mx-auto w-full max-w-4xl px-5 pt-12 sm:px-8">
         {/* Stepper */}
-        <ol className="mb-16 flex gap-6">
+        <ol className="mb-12 flex gap-4">
           {[0, 1, 2].map((i) => (
             <li
               key={i}
               className={cn(
-                "h-3 flex-1 brutal-border transition-all duration-500",
+                "h-2 flex-1 brutal-border transition-all duration-500",
                 step >= i ? "bg-primary brutal-shadow-sm translate-y-[-2px]" : "bg-card opacity-50"
               )}
             />
@@ -133,10 +133,10 @@ export default function SessionPage() {
               className="space-y-6"
             >
               <div>
-                <h1 className="font-sans font-black text-5xl uppercase tracking-tighter leading-none">
+                <h1 className="font-sans font-black text-3xl uppercase tracking-tighter leading-none sm:text-4xl">
                   Who&apos;s in <br/> the <span className="text-primary">room?</span>
                 </h1>
-                <p className="mt-4 max-w-2xl text-lg font-bold leading-tight opacity-70">
+                <p className="mt-2 max-w-2xl text-base font-bold leading-tight opacity-70">
                   ADD 2 TO 5 PARTICIPANTS. NAMES STAY ON THIS DEVICE.
                 </p>
               </div>
@@ -148,9 +148,9 @@ export default function SessionPage() {
                     key={idx}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-3 brutal-border bg-card p-2 pl-4 brutal-shadow transition-all focus-within:brutal-shadow-lg"
+                    className="flex items-center gap-3 brutal-border bg-card p-1.5 pl-3 brutal-shadow transition-all focus-within:brutal-shadow-lg"
                   >
-                    <span className="font-pixel text-xl font-black bg-foreground text-background px-2 py-1">
+                    <span className="font-pixel text-lg font-black bg-foreground text-background px-2 py-0.5">
                       P{idx + 1}
                     </span>
                     <input

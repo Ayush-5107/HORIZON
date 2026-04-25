@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { BrandMark } from "@/components/quorum/brand-mark"
 import { logout, useStore, toggleWatchlist } from "@/lib/store"
@@ -20,7 +21,9 @@ import {
   Play,
   Heart,
   Film,
-  Sparkles
+  Sparkles,
+  Vote,
+  ArrowRight
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 

@@ -101,27 +101,27 @@ export default function VotePage() {
                 <Hand className="h-12 w-12" />
               </motion.div>
               
-              <div className="space-y-4">
-                <p className="font-pixel text-2xl uppercase tracking-widest text-foreground bg-accent px-6 py-3 brutal-border brutal-shadow-sm inline-block font-black">
+              <div className="space-y-3">
+                <p className="font-pixel text-lg uppercase tracking-widest text-foreground bg-accent px-4 py-2 brutal-border brutal-shadow-sm inline-block font-black">
                   Pass the device
                 </p>
-                <h1 className="text-balance font-sans font-black text-7xl uppercase leading-none tracking-tighter sm:text-9xl">
+                <h1 className="text-balance font-sans font-black text-5xl uppercase leading-none tracking-tighter sm:text-7xl">
                   <span className="text-primary">{participantLabel}</span>
                   <br/>
-                  <span className="bg-foreground text-background px-6 mt-4 inline-block transform -rotate-1">YOUR TURN</span>
+                  <span className="bg-foreground text-background px-4 mt-2 inline-block transform -rotate-1">YOUR TURN</span>
                 </h1>
               </div>
 
-              <p className="mt-12 text-2xl font-bold font-sans leading-tight max-w-lg">
+              <p className="mt-8 text-xl font-bold font-sans leading-tight max-w-lg">
                 You&apos;ll swipe <span className="bg-secondary px-2">{deck.length} cards</span>. <br/>
                 Decisions are <span className="text-primary">private</span> and will only be revealed at the end.
               </p>
 
               <motion.label 
-                whileHover={{ scale: 1.02 }}
-                className="mt-16 flex cursor-pointer items-center gap-6 brutal-border bg-card px-8 py-6 text-2xl font-black brutal-shadow hover:brutal-shadow-lg transition-all active:translate-y-1"
+                whileHover={{ scale: 1.01 }}
+                className="mt-12 flex cursor-pointer items-center gap-4 brutal-border bg-card px-6 py-4 text-xl font-black brutal-shadow hover:brutal-shadow-lg transition-all active:translate-y-1"
               >
-                <div className="relative h-10 w-10 shrink-0">
+                <div className="relative h-8 w-8 shrink-0">
                   <input
                     type="checkbox"
                     checked={readyChecked}
@@ -132,11 +132,11 @@ export default function VotePage() {
                     "h-full w-full brutal-border transition-colors flex items-center justify-center",
                     readyChecked ? "bg-success" : "bg-background"
                   )}>
-                    {readyChecked && <Hand className="h-6 w-6 text-success-foreground" />}
+                    {readyChecked && <Hand className="h-4 w-4 text-success-foreground" />}
                   </div>
                 </div>
-                <span className="flex items-center gap-4 text-foreground uppercase tracking-tight">
-                  <EyeOff className="h-8 w-8" />
+                <span className="flex items-center gap-3 text-foreground uppercase tracking-tight text-lg">
+                  <EyeOff className="h-6 w-6" />
                   I&apos;m alone with the device
                 </span>
               </motion.label>
@@ -144,10 +144,10 @@ export default function VotePage() {
               <button
                 onClick={() => setStage("voting")}
                 disabled={!readyChecked}
-                className="group mt-12 inline-flex items-center gap-4 brutal-border bg-primary px-16 py-6 text-3xl font-black uppercase text-primary-foreground transition-all disabled:opacity-20 brutal-shadow hover:brutal-shadow-lg enabled:hover:-translate-y-2 enabled:active:translate-y-1"
+                className="group mt-10 inline-flex items-center gap-4 brutal-border bg-primary px-10 py-4 text-2xl font-black uppercase text-primary-foreground transition-all disabled:opacity-20 brutal-shadow hover:brutal-shadow-lg enabled:hover:-translate-y-1 enabled:active:translate-y-1"
               >
                 Begin Deck
-                <ArrowRight className="h-8 w-8 transition-transform group-hover:translate-x-2" />
+                <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-2" />
               </button>
             </motion.div>
           ) : (
