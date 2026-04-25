@@ -207,25 +207,62 @@ export default function ResultsPage() {
           </div>
         </section>
 
-        {/* Sentiment matrix */}
-        <section className="mt-24">
-          <div className="border-b-8 border-foreground pb-6">
-            <h2 className="font-sans text-6xl font-black uppercase tracking-tighter">Full Tally</h2>
-            <p className="mt-3 text-2xl font-bold opacity-70">
-              ANONYMOUS DISTRIBUTION ACROSS {participants.length} BALLOTS.
+        {/* Room Sentiment Overview */}
+        <section className="mt-20">
+          <div className="border-b-4 border-foreground pb-4 mb-8">
+            <h2 className="font-sans text-4xl font-black uppercase tracking-tighter">Room Sentiment</h2>
+            <p className="mt-2 text-lg font-bold opacity-70">
+              CUMULATIVE ENGAGEMENT ACROSS ALL BALLOTS.
             </p>
           </div>
           
-          <div className="mt-12 overflow-x-auto brutal-border bg-card brutal-shadow">
-            <table className="w-full">
-              <thead className="bg-secondary text-left font-pixel text-xl font-black uppercase border-b-8 border-foreground">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <SentimentCard 
+              label="Total Love" 
+              value={Object.values(votes).reduce((acc, v) => acc + Object.values(v).filter(x => x === "love").length, 0)}
+              icon={<Heart className="h-6 w-6 text-primary" />}
+              sub="Highest signal"
+            />
+            <SentimentCard 
+              label="Consensus" 
+              value={Object.values(votes).reduce((acc, v) => acc + Object.values(v).filter(x => x === "yes").length, 0)}
+              icon={<ThumbsUp className="h-6 w-6 text-success" />}
+              sub="Agreement"
+            />
+            <SentimentCard 
+              label="Objections" 
+              value={Object.values(votes).reduce((acc, v) => acc + Object.values(v).filter(x => x === "no").length, 0)}
+              icon={<ThumbsDown className="h-6 w-6 text-destructive" />}
+              sub="Friction"
+            />
+            <SentimentCard 
+              label="Engagement" 
+              value={`${Math.round((Object.values(votes).reduce((acc, v) => acc + Object.values(v).length, 0) / (moviePool.length * participants.length)) * 100)}%`}
+              icon={<Star className="h-6 w-6 text-secondary" />}
+              sub="Ballot fill rate"
+            />
+          </div>
+        </section>
+
+        {/* Full Tally Table */}
+        <section className="mt-20">
+          <div className="border-b-4 border-foreground pb-4 mb-8">
+            <h2 className="font-sans text-4xl font-black uppercase tracking-tighter">Full Rankings</h2>
+            <p className="mt-2 text-lg font-bold opacity-70">
+              WEIGHTED SCORE DISTRIBUTION FOR THE ENTIRE POOL.
+            </p>
+          </div>
+          
+          <div className="overflow-x-auto brutal-border bg-card brutal-shadow-sm">
+            <table className="w-full text-left">
+              <thead className="bg-secondary font-pixel text-lg font-black uppercase border-b-4 border-foreground">
                 <tr>
-                  <th className="px-8 py-6">Film</th>
-                  <th className="px-8 py-6">Distribution</th>
-                  <th className="px-8 py-6 text-right">Points</th>
+                  <th className="px-6 py-4">Film</th>
+                  <th className="px-6 py-4">Distribution</th>
+                  <th className="px-6 py-4 text-right">Points</th>
                 </tr>
               </thead>
-              <tbody className="divide-y-8 divide-foreground font-black">
+              <tbody className="divide-y-4 divide-foreground font-bold">
                 {fullTally.ranked.map((row, i) => {
                   const m = getMovieById(row.movieId)
                   if (!m) return null
@@ -239,25 +276,25 @@ export default function ResultsPage() {
                       key={m.id} 
                       className="group hover:bg-muted/30 transition-colors"
                     >
-                      <td className="px-8 py-6">
-                        <div className="flex items-center gap-6">
-                          <div className="h-20 w-14 shrink-0 overflow-hidden brutal-border">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-4">
+                          <div className="h-16 w-11 shrink-0 overflow-hidden brutal-border-sm">
                             <Poster movie={m} className="h-full w-full" />
                           </div>
                           <div className="min-w-0">
-                            <p className="text-2xl uppercase tracking-tighter leading-none">{m.title}</p>
-                            <p className="font-pixel text-sm uppercase mt-2 opacity-50">{m.genre}</p>
+                            <p className="text-xl uppercase tracking-tighter leading-none truncate">{m.title}</p>
+                            <p className="font-pixel text-[10px] uppercase mt-1 opacity-50">{m.genre}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-8 py-6">
-                        <div className="flex h-10 w-full max-w-md overflow-hidden brutal-border bg-background p-1 shadow-[4px_4px_0_var(--foreground)]">
+                      <td className="px-6 py-4">
+                        <div className="flex h-8 w-full max-w-[280px] overflow-hidden brutal-border bg-background p-0.5 shadow-[2px_2px_0_var(--foreground)]">
                           <div
-                            className="h-full bg-secondary brutal-border border-y-0 border-l-0"
+                            className="h-full bg-secondary border-r-2 border-foreground"
                             style={{ width: `${(row.counts.love / total) * 100}%` }}
                           />
                           <div
-                            className="h-full bg-success brutal-border border-y-0 border-l-0"
+                            className="h-full bg-success border-r-2 border-foreground"
                             style={{ width: `${(row.counts.yes / total) * 100}%` }}
                           />
                           <div
@@ -265,30 +302,21 @@ export default function ResultsPage() {
                             style={{ width: `${(row.counts.no / total) * 100}%` }}
                           />
                         </div>
-                        <div className="mt-4 flex gap-6 text-sm font-black uppercase tracking-tight">
-                          <span className="flex items-center gap-2">
-                            <div className="h-3 w-3 bg-secondary brutal-border" />
-                            Love {row.counts.love}
-                          </span>
-                          <span className="flex items-center gap-2">
-                            <div className="h-3 w-3 bg-success brutal-border" />
-                            Yes {row.counts.yes}
-                          </span>
-                          <span className="flex items-center gap-2">
-                            <div className="h-3 w-3 bg-destructive brutal-border" />
-                            No {row.counts.no}
-                          </span>
+                        <div className="mt-2 flex gap-4 text-[10px] font-black uppercase tracking-tight opacity-70">
+                          <span>LOVE {row.counts.love}</span>
+                          <span>YES {row.counts.yes}</span>
+                          <span>NO {row.counts.no}</span>
                         </div>
                       </td>
-                      <td className="px-8 py-6 text-right font-pixel text-4xl text-primary">{row.score}</td>
+                      <td className="px-6 py-4 text-right font-pixel text-2xl text-primary">{row.score}</td>
                     </motion.tr>
                   )
                 })}
               </tbody>
             </table>
           </div>
-          <div className="mt-6 flex justify-end">
-            <p className="font-pixel text-lg font-black uppercase bg-card brutal-border px-6 py-2 brutal-shadow-sm">
+          <div className="mt-4 flex justify-end">
+            <p className="font-pixel text-[10px] font-black uppercase bg-card brutal-border px-4 py-1.5 brutal-shadow-sm opacity-60">
               Weights: NO {VOTE_SCORE.no} · YES +{VOTE_SCORE.yes} · LOVE +{VOTE_SCORE.love}
             </p>
           </div>
@@ -570,6 +598,20 @@ function WatchRoom({ title, onClose }: { title: string; onClose: () => void }) {
           100% { transform: translateY(-400px) scale(1.6) rotate(10deg); opacity: 0; }
         }
       `}</style>
+    </div>
+  )
+}
+function SentimentCard({ label, value, icon, sub }: { label: string; value: string | number; icon: React.ReactNode; sub: string }) {
+  return (
+    <div className="brutal-border bg-card p-6 brutal-shadow-sm hover:brutal-shadow transition-all hover:-translate-y-1">
+      <div className="flex items-center justify-between mb-4">
+        <div className="brutal-border bg-background p-2">
+          {icon}
+        </div>
+        <span className="font-pixel text-2xl font-black text-primary">{value}</span>
+      </div>
+      <p className="font-sans text-xl font-black uppercase tracking-tight">{label}</p>
+      <p className="mt-1 text-xs font-bold opacity-50 uppercase tracking-widest">{sub}</p>
     </div>
   )
 }
