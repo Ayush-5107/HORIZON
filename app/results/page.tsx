@@ -46,21 +46,46 @@ export default function ResultsPage() {
     <main className="relative min-h-dvh bg-background pb-20 overflow-x-hidden">
       <div className="grain pointer-events-none absolute inset-0" aria-hidden />
 
-      <header className="relative z-50 flex w-full items-center justify-between px-5 py-6 sm:px-8 border-b-8 border-foreground bg-secondary">
-        <BrandMark size={40} />
-        <div className="flex gap-4">
+      <header className="relative z-50 flex w-full items-center justify-between px-5 py-4 sm:px-8 border-b-4 border-foreground bg-secondary">
+        <BrandMark size={32} />
+        <div className="flex gap-3">
+          <div className="hidden sm:flex items-center gap-2 font-pixel text-xs uppercase tracking-widest text-foreground font-black bg-card brutal-border px-4 py-1.5 brutal-shadow-sm">
+            <Share2 className="h-4 w-4" />
+            Session Summary
+          </div>
           <Link
             href="/"
             onClick={() => resetState()}
-            className="brutal-border bg-card px-5 py-2 text-lg font-black uppercase hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow-hover transition-all flex items-center gap-2"
+            className="brutal-border bg-card px-4 py-1.5 text-sm font-black uppercase hover:-translate-y-0.5 brutal-shadow-sm hover:brutal-shadow-hover transition-all flex items-center gap-2"
           >
-            <LogOut className="h-5 w-5" />
+            <LogOut className="h-4 w-4" />
             Quit
           </Link>
         </div>
       </header>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-8 sm:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-6 sm:px-8">
+        {/* Quick Stats Banner */}
+        <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div className="brutal-border bg-card p-3 brutal-shadow-sm">
+            <p className="font-pixel text-[10px] uppercase opacity-50">Total Deck</p>
+            <p className="font-sans text-xl font-black">{moviePool.length} Films</p>
+          </div>
+          <div className="brutal-border bg-card p-3 brutal-shadow-sm">
+            <p className="font-pixel text-[10px] uppercase opacity-50">Quorum Size</p>
+            <p className="font-sans text-xl font-black">{participants.length} Voters</p>
+          </div>
+          <div className="brutal-border bg-card p-3 brutal-shadow-sm">
+            <p className="font-pixel text-[10px] uppercase opacity-50">Ballots Cast</p>
+            <p className="font-sans text-xl font-black">{Object.keys(votes).length} Users</p>
+          </div>
+          <div className="brutal-border bg-card p-3 brutal-shadow-sm">
+            <p className="font-pixel text-[10px] uppercase opacity-50">Agreement</p>
+            <p className="font-sans text-xl font-black">
+              {Math.round((fullTally.ranked.filter(r => r.score > 0).length / moviePool.length) * 100)}%
+            </p>
+          </div>
+        </div>
         {/* Winner Hero */}
         <motion.section
           initial={{ scale: 0.95, opacity: 0 }}
@@ -243,25 +268,30 @@ export default function ResultsPage() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <SentimentCard 
               label="Total Love" 
-              value={Object.values(votes).reduce((acc, v) => acc + Object.values(v).filter(x => x === "love").length, 0)}
+              value={Object.values(votes).reduce((acc, v) => acc + Object.values(v || {}).filter(x => x === "love").length, 0)}
               icon={<Heart className="h-6 w-6 text-primary" />}
               sub="Highest signal"
             />
             <SentimentCard 
               label="Consensus" 
-              value={Object.values(votes).reduce((acc, v) => acc + Object.values(v).filter(x => x === "yes").length, 0)}
+              value={Object.values(votes).reduce((acc, v) => acc + Object.values(v || {}).filter(x => x === "yes").length, 0)}
               icon={<ThumbsUp className="h-6 w-6 text-success" />}
               sub="Agreement"
             />
             <SentimentCard 
               label="Objections" 
-              value={Object.values(votes).reduce((acc, v) => acc + Object.values(v).filter(x => x === "no").length, 0)}
+              value={Object.values(votes).reduce((acc, v) => acc + Object.values(v || {}).filter(x => x === "no").length, 0)}
               icon={<ThumbsDown className="h-6 w-6 text-destructive" />}
               sub="Friction"
             />
             <SentimentCard 
               label="Engagement" 
-              value={`${Math.round((Object.values(votes).reduce((acc, v) => acc + Object.values(v).length, 0) / (moviePool.length * participants.length)) * 100)}%`}
+              value={`${(() => {
+                const totalPossible = moviePool.length * participants.length
+                if (totalPossible === 0) return 0
+                const actual = Object.values(votes).reduce((acc, v) => acc + Object.values(v || {}).length, 0)
+                return Math.round((actual / totalPossible) * 100)
+              })()}%`}
               icon={<Star className="h-6 w-6 text-secondary" />}
               sub="Ballot fill rate"
             />
