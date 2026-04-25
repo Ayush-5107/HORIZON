@@ -59,106 +59,103 @@ export default function ResultsPage() {
         </div>
       </header>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-12 sm:px-8">
-        {/* Winner Section */}
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-8 sm:px-8">
+        {/* Winner Hero */}
         <motion.section
-          initial={{ scale: 0.9, opacity: 0, rotate: -2 }}
-          animate={{ scale: 1, opacity: 1, rotate: 0 }}
-          className="relative grid gap-10 overflow-hidden brutal-border bg-primary p-6 sm:p-10 lg:grid-cols-[350px_1fr] lg:gap-12 brutal-shadow-lg"
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="relative overflow-hidden brutal-border bg-primary brutal-shadow-lg"
         >
-          {/* Winner Badge Floating */}
-          <motion.div 
-            animate={{ y: [0, -5, 0], rotate: [5, 2, 5] }}
-            transition={{ duration: 4, repeat: Infinity }}
-            className="absolute -top-2 -left-2 z-20 bg-success text-success-foreground brutal-border px-6 py-2 text-xl font-black uppercase tracking-tighter shadow-[4px_4px_0px_var(--foreground)]"
-          >
-            Winner
-          </motion.div>
-
-          <div className="relative aspect-[2/3] w-full overflow-hidden brutal-border bg-foreground group">
-            <Poster movie={winner} className="h-full w-full transform transition-transform duration-700 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent opacity-60" />
-          </div>
-
-          <div className="flex flex-col justify-center">
-            <motion.div 
-              initial={{ x: 50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              <div className="flex items-center gap-3">
-                <span className="font-pixel text-lg uppercase tracking-widest bg-foreground text-background px-3 py-1 font-black inline-flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-primary" />
-                  CONSENSUS REACHED
-                </span>
-                {cameFromTie && (
-                  <span className="font-pixel text-lg uppercase tracking-widest bg-secondary text-foreground px-3 py-1 brutal-border font-black">
-                    TIE-BREAK
-                  </span>
-                )}
-              </div>
+          {/* Ambient Background Glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_70%)]" />
+          
+          <div className="relative grid gap-0 lg:grid-cols-[400px_1fr]">
+            {/* Cinematic Poster */}
+            <div className="relative aspect-[2/3] overflow-hidden border-b-4 lg:border-b-0 lg:border-r-4 border-foreground group">
+              <Poster movie={winner} className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground via-transparent to-transparent opacity-40" />
               
-              <h1 className="mt-6 text-balance font-sans text-6xl font-black uppercase leading-[0.95] tracking-tighter sm:text-8xl">
-                {winner.title}
-              </h1>
+              {/* Winner Floating Badge */}
+              <motion.div 
+                animate={{ y: [0, -10, 0], rotate: [-5, -2, -5] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-6 left-6 z-20 bg-success text-success-foreground brutal-border px-6 py-2 text-2xl font-black uppercase tracking-tighter shadow-[6px_6px_0px_var(--foreground)]"
+              >
+                #1 PICK
+              </motion.div>
+            </div>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                <GenreTag genre={winner.genre} className="brutal-border bg-background text-foreground text-lg px-4 py-1" />
-                <div className="flex items-center gap-2 brutal-border bg-background text-foreground px-3 py-1 text-sm font-black uppercase">
+            {/* Winner Info */}
+            <div className="flex flex-col justify-center p-8 lg:p-16 space-y-8">
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <span className="font-pixel text-sm uppercase tracking-widest bg-foreground text-background px-4 py-1.5 font-black inline-flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-primary" />
+                    QUORUM CONSENSUS
+                  </span>
+                  {cameFromTie && (
+                    <span className="font-pixel text-sm uppercase tracking-widest bg-secondary text-foreground px-4 py-1.5 brutal-border font-black">
+                      TIE-BREAKER WIN
+                    </span>
+                  )}
+                </div>
+                
+                <h1 className="text-balance font-sans text-6xl font-black uppercase leading-[0.85] tracking-tighter sm:text-8xl lg:text-9xl">
+                  {winner.title}
+                </h1>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                <GenreTag genre={winner.genre} className="brutal-border bg-background text-foreground text-lg px-5 py-1.5" />
+                <div className="flex items-center gap-2 brutal-border bg-background text-foreground px-4 py-1.5 text-base font-black uppercase">
                   <Star className="h-5 w-5 fill-primary text-primary" />
                   {winner.rating.toFixed(1)}
                 </div>
-                <div className="brutal-border bg-background text-foreground px-3 py-1 text-sm font-black uppercase">
+                <div className="brutal-border bg-background text-foreground px-4 py-1.5 text-base font-black uppercase">
                   {winner.runtime}m
-                </div>
-                <div className="brutal-border bg-background text-foreground px-3 py-1 text-sm font-black uppercase">
-                  {winner.year}
                 </div>
               </div>
 
-              <p className="mt-6 max-w-2xl text-xl font-bold leading-tight opacity-90 font-sans">
+              <p className="max-w-xl text-xl font-bold leading-tight opacity-90 font-sans border-l-4 border-foreground pl-6 py-2">
                 {winner.synopsis}
               </p>
 
-              <div className="mt-10 flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 pt-4">
                 <button
                   onClick={() => setShowWatch(true)}
-                  className="group inline-flex items-center gap-3 brutal-border bg-secondary px-8 py-4 text-xl font-black uppercase text-foreground transition-all hover:translate-y-[-2px] brutal-shadow"
+                  className="group inline-flex items-center gap-3 brutal-border bg-secondary px-8 py-4 text-xl font-black uppercase text-foreground transition-all hover:translate-y-[-4px] brutal-shadow-sm hover:brutal-shadow"
                 >
                   <Tv className="h-6 w-6" />
                   Watch Room
                 </button>
                 <button
                   onClick={() => {
-                    const remaining = rematchSession()
-                    if (remaining > 0) router.push("/vote")
-                    else router.push("/session")
+                    rematchSession()
+                    router.push("/vote")
                   }}
-                  className="inline-flex items-center gap-3 brutal-border bg-card px-8 py-4 text-xl font-black uppercase text-foreground transition-all hover:translate-y-[-2px] brutal-shadow"
+                  className="inline-flex items-center gap-3 brutal-border bg-card px-8 py-4 text-xl font-black uppercase text-foreground transition-all hover:translate-y-[-4px] brutal-shadow-sm hover:brutal-shadow"
                 >
                   <Repeat className="h-6 w-6" />
                   Rematch
                 </button>
               </div>
-            </motion.div>
+            </div>
           </div>
         </motion.section>
 
         {/* Insight */}
         <Insight winnerId={winner.id} fullTally={fullTally} cameFromTie={cameFromTie} />
 
-        {/* Podium */}
+        {/* Leaderboard / Podium */}
         <section className="mt-20">
-          <div className="border-b-4 border-foreground pb-4 flex items-end justify-between">
-            <div>
-              <h2 className="font-sans text-5xl font-black uppercase tracking-tighter">Podium</h2>
-              <p className="mt-2 text-xl font-bold opacity-70">
-                TOP THREE BY WEIGHTED SCORE.
-              </p>
-            </div>
+          <div className="border-b-4 border-foreground pb-4 mb-10">
+            <h2 className="font-sans text-5xl font-black uppercase tracking-tighter">The Podium</h2>
+            <p className="mt-2 text-lg font-bold opacity-70">
+              TOP THREE WEIGHTED SCORERS.
+            </p>
           </div>
           
-          <div className="mt-10 grid gap-8 sm:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-3">
             {top3.map((row, i) => {
               const m = getMovieById(row.movieId)
               if (!m) return null

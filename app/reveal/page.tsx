@@ -53,26 +53,26 @@ export default function RevealPage() {
       <motion.div 
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="absolute top-0 left-1/2 -translate-x-1/2 border-b-8 border-l-8 border-r-8 border-foreground bg-secondary px-12 py-6 brutal-shadow-lg z-50"
+        className="absolute top-0 left-1/2 -translate-x-1/2 border-b-4 border-l-4 border-r-4 border-foreground bg-secondary px-8 py-3 brutal-shadow-sm z-50"
       >
-        <BrandMark size={48} />
+        <BrandMark size={32} />
       </motion.div>
 
       <div className="relative flex flex-col items-center text-center px-4 w-full max-w-2xl">
         <motion.p 
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="font-pixel text-2xl uppercase tracking-[0.2em] text-foreground bg-accent brutal-border px-8 py-4 brutal-shadow font-black transform rotate-1"
+          className="font-pixel text-lg uppercase tracking-[0.2em] text-foreground bg-accent brutal-border px-6 py-2 brutal-shadow-sm font-black transform rotate-1"
         >
           {isRepoll ? "FINAL REVEAL" : "TALLYING BALLOTS"}
         </motion.p>
 
-        <div className="mt-16 flex h-80 w-80 items-center justify-center relative">
+        <div className="mt-12 flex h-60 w-60 items-center justify-center relative">
           {/* Animated Background Rings */}
           <motion.div 
             animate={{ rotate: 360 }}
             transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0 brutal-border bg-card shadow-[16px_16px_0px_var(--foreground)]" 
+            className="absolute inset-0 brutal-border bg-card shadow-[8px_8px_0px_var(--foreground)]" 
           />
           <motion.div 
             animate={{ rotate: -360 }}
@@ -92,7 +92,7 @@ export default function RevealPage() {
               animate={{ scale: 1, opacity: 1, rotate: 0 }}
               exit={{ scale: 0.5, opacity: 0, rotate: 45 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
-              className="relative z-10 font-sans font-black text-9xl text-foreground"
+              className="relative z-10 font-sans font-black text-7xl text-foreground"
             >
               {count > 0 ? count : "!"}
             </motion.span>
@@ -103,11 +103,11 @@ export default function RevealPage() {
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-16 w-full text-pretty font-black text-2xl uppercase leading-tight bg-card brutal-border p-8 brutal-shadow"
+          className="mt-12 w-full text-pretty font-black text-xl uppercase leading-tight bg-card brutal-border p-6 brutal-shadow-sm"
         >
-          Aggregating <span className="bg-primary text-primary-foreground px-3 py-1 inline-block transform -rotate-1">{Object.keys(isRepoll ? repollVotes : votes).length}</span>{" "}
+          Aggregating <span className="bg-primary text-primary-foreground px-2 py-0.5 inline-block transform -rotate-1">{Object.keys(isRepoll ? repollVotes : votes).length}</span>{" "}
           BALLOTS FOR{" "}
-          <span className="bg-success text-success-foreground px-3 py-1 inline-block transform rotate-1">
+          <span className="bg-success text-success-foreground px-2 py-0.5 inline-block transform rotate-1">
             {(isRepoll ? tiedFromState : moviePool).length}
           </span>{" "}
           {isRepoll ? "TIED" : "CANDIDATE"} FILMS.

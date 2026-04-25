@@ -84,54 +84,54 @@ export default function DebatePage() {
     <main className="relative min-h-dvh bg-background overflow-hidden">
       <div className="grain pointer-events-none absolute inset-0" aria-hidden />
 
-      <header className="relative z-50 flex w-full items-center justify-between px-5 py-6 sm:px-8 border-b-8 border-foreground bg-secondary">
-        <BrandMark size={40} />
-        <div className="flex items-center gap-6">
-          <div className="hidden sm:flex items-center gap-3 font-pixel text-xl uppercase tracking-widest text-foreground font-black bg-card brutal-border px-6 py-2 brutal-shadow-sm">
-            <Swords className="h-6 w-6 text-primary" />
+      <header className="relative z-50 flex w-full items-center justify-between px-5 py-4 sm:px-8 border-b-4 border-foreground bg-secondary">
+        <BrandMark size={32} />
+        <div className="flex items-center gap-4">
+          <div className="hidden sm:flex items-center gap-2 font-pixel text-lg uppercase tracking-widest text-foreground font-black bg-card brutal-border px-4 py-1.5 brutal-shadow-sm">
+            <Swords className="h-5 w-5 text-primary" />
             DEBATE ROOM
           </div>
           <div className={cn(
-            "font-pixel text-2xl uppercase tracking-widest font-black brutal-border px-6 py-2 transition-colors",
+            "font-pixel text-xl uppercase tracking-widest font-black brutal-border px-4 py-1.5 transition-colors",
             timer < 30 ? "bg-destructive text-destructive-foreground animate-pulse" : "bg-foreground text-background"
           )}>
-            <div className="flex items-center gap-3">
-              <Timer className="h-6 w-6" />
+            <div className="flex items-center gap-2">
+              <Timer className="h-5 w-5" />
               {timer > 0 ? `${mins}:${secs}` : "TIME UP"}
             </div>
           </div>
         </div>
       </header>
 
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-10 px-5 pb-32 pt-10 sm:px-8 lg:grid-cols-[400px_1fr]">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-8 px-5 pb-24 pt-8 sm:px-8 lg:grid-cols-[350px_1fr]">
         {/* left: tied movies */}
-        <aside className="space-y-10">
+        <aside className="space-y-8">
           <div>
-            <h2 className="font-sans text-6xl font-black uppercase tracking-tighter leading-none mb-6">
+            <h2 className="font-sans text-4xl font-black uppercase tracking-tighter leading-none mb-4">
               The <br/> <span className="text-primary">Standoff</span>
             </h2>
-            <p className="text-xl font-bold opacity-70 leading-tight">
+            <p className="text-lg font-bold opacity-70 leading-tight">
               THE ROOM IS TIED. DEBATE OR START THE FINAL RE-POLL.
             </p>
           </div>
           
-          <ul className="space-y-6">
+          <ul className="space-y-4">
             {tiedMovies.map((m, i) => (
               <motion.li
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: i * 0.1 }}
                 key={m.id}
-                className="group flex items-center gap-6 brutal-border bg-card p-6 brutal-shadow hover:brutal-shadow-lg transition-all hover:-translate-y-1"
+                className="group flex items-center gap-4 brutal-border bg-card p-4 brutal-shadow transition-all hover:-translate-y-1"
               >
-                <div className="h-32 w-20 shrink-0 overflow-hidden brutal-border brutal-shadow-sm">
+                <div className="h-24 w-16 shrink-0 overflow-hidden brutal-border brutal-shadow-sm">
                   <Poster movie={m} className="h-full w-full" />
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate font-sans text-2xl font-black uppercase tracking-tight">{m.title}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <GenreTag genre={m.genre} className="brutal-border text-xs !px-2 !py-1" />
-                    <span className="font-pixel text-xs font-black uppercase bg-foreground text-background px-2 py-1">
+                  <p className="truncate font-sans text-xl font-black uppercase tracking-tight">{m.title}</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <GenreTag genre={m.genre} className="brutal-border text-[10px] !px-1.5 !py-0.5" />
+                    <span className="font-pixel text-[10px] font-black uppercase bg-foreground text-background px-1.5 py-0.5">
                       ★ {m.rating.toFixed(1)}
                     </span>
                   </div>
@@ -142,26 +142,26 @@ export default function DebatePage() {
 
           <button
             onClick={startRepoll}
-            className="group mt-12 inline-flex w-full items-center justify-center gap-4 brutal-border bg-primary px-8 py-6 text-2xl font-black uppercase text-primary-foreground transition-all hover:-translate-y-2 brutal-shadow hover:brutal-shadow-lg"
+            className="group mt-8 inline-flex w-full items-center justify-center gap-3 brutal-border bg-primary px-6 py-4 text-xl font-black uppercase text-primary-foreground transition-all hover:-translate-y-1 brutal-shadow hover:brutal-shadow-lg"
           >
             Final Re-poll
-            <ArrowRight className="h-8 w-8 transition-transform group-hover:translate-x-2" />
+            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
           </button>
         </aside>
 
         {/* right: chat */}
-        <section className="flex flex-col brutal-border bg-card brutal-shadow-lg h-[75svh]">
-          <header className="flex items-center justify-between border-b-8 border-foreground px-8 py-6 bg-secondary">
-            <span className="text-xl font-black uppercase font-pixel tracking-tighter">
+        <section className="flex flex-col brutal-border bg-card brutal-shadow-lg h-[70svh]">
+          <header className="flex items-center justify-between border-b-4 border-foreground px-6 py-4 bg-secondary">
+            <span className="text-lg font-black uppercase font-pixel tracking-tighter">
               BATTLE LOG
             </span>
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               {participants.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveParticipant(i)}
                   className={cn(
-                    "brutal-border px-5 py-2 font-pixel text-xl font-black transition-all hover:-translate-y-1",
+                    "brutal-border px-3 py-1 font-pixel text-sm font-black transition-all hover:-translate-y-1",
                     activeParticipant === i
                       ? "bg-foreground text-background brutal-shadow-sm translate-y-0"
                       : "bg-background text-foreground hover:brutal-shadow-sm",
