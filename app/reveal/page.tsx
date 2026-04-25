@@ -31,6 +31,10 @@ export default function RevealPage() {
 
   useEffect(() => {
     if (count <= 0) {
+      // Only proceed if we're still in a phase that should be revealing.
+      // This prevents the infinite loop described in the stack trace.
+      if (phase !== "reveal" && phase !== "repoll") return
+
       const winner = tally.tied.length > 1 && !isRepoll ? undefined : tally.ranked[0]?.movieId
       const tied = tally.tied
       if (tied.length > 1 && !isRepoll) {
