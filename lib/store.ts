@@ -100,8 +100,6 @@ const initial: QuorumState = {
 
 const STORAGE_KEY = "quorum:state:v1"
 
-let memoryState: QuorumState = initial
-let hydrated = false
 const listeners = new Set<() => void>()
 
 function loadFromStorage(): QuorumState {
@@ -115,6 +113,11 @@ function loadFromStorage(): QuorumState {
     return initial
   }
 }
+
+// Eagerly hydrate at module load so the very first render of any component
+// already has the real persisted state. This prevents race conditions where
+// redirect guards (e.g. Results page) fire before hydration completes.
+let memoryState: QuorumState = loadFromStorage()
 
 function persist() {
   if (typeof window === "undefined") return
@@ -143,14 +146,8 @@ export function resetState() {
 }
 
 export function useStore<T>(selector: (s: QuorumState) => T): T {
-  // Hydrate from sessionStorage on first client render.
   const [, force] = useState(0)
   useEffect(() => {
-    if (!hydrated) {
-      memoryState = loadFromStorage()
-      hydrated = true
-      force((n) => n + 1)
-    }
     const sub = () => force((n) => n + 1)
     listeners.add(sub)
     return () => {

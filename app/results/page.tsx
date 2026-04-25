@@ -33,14 +33,33 @@ export default function ResultsPage() {
   const cameFromTie = repollTally !== null
 
   useEffect(() => {
-    if (phase !== "results" || !winner) {
-      if (moviePool.length === 0) router.replace("/")
+    // Only redirect to home if there is truly no session data at all.
+    // Don't redirect just because phase hasn't settled — it might still
+    // be transitioning from reveal → results.
+    if (moviePool.length === 0 && phase === "idle") {
+      router.replace("/")
     }
-  }, [phase, winner, moviePool.length, router])
+  }, [phase, moviePool.length, router])
 
   const [showWatch, setShowWatch] = useState(false)
 
-  if (!winner) return null
+  if (!winner) {
+    return (
+      <main className="relative flex min-h-dvh items-center justify-center bg-background">
+        <div className="grain pointer-events-none absolute inset-0" aria-hidden />
+        <div className="text-center space-y-6">
+          <motion.div
+            animate={{ rotate: [0, 360] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="mx-auto h-16 w-16 brutal-border bg-primary brutal-shadow"
+          />
+          <p className="font-pixel text-xl font-black uppercase tracking-widest">
+            TALLYING RESULTS...
+          </p>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className="relative min-h-dvh bg-background pb-20 overflow-x-hidden">
