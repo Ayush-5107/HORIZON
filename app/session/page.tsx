@@ -146,13 +146,12 @@ export default function SessionPage() {
               <ul className="space-y-3 mt-8">
                 {participants.map((value, idx) => (
                   <motion.li
-                    layout
                     key={idx}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-3 brutal-border bg-card p-1.5 pl-3 brutal-shadow transition-all focus-within:brutal-shadow-lg"
+                    className="flex items-center gap-3 brutal-border bg-card p-1 pl-3 brutal-shadow-sm transition-all focus-within:brutal-shadow"
                   >
-                    <span className="font-pixel text-lg font-black bg-foreground text-background px-2 py-0.5">
+                    <span className="font-pixel text-sm font-black bg-foreground text-background px-2 py-0.5">
                       P{idx + 1}
                     </span>
                     <input
@@ -163,30 +162,30 @@ export default function SessionPage() {
                         setParticipants(next)
                       }}
                       placeholder={`Participant ${idx + 1}`}
-                      className="flex-1 bg-transparent px-4 py-4 text-3xl font-black outline-none uppercase placeholder:text-muted-foreground/30 tracking-tight"
+                      className="flex-1 bg-transparent px-3 py-3 text-xl font-black outline-none uppercase placeholder:text-muted-foreground/30 tracking-tight"
                     />
-                    <div className="flex gap-3 pr-2">
+                    <div className="flex gap-2 pr-2">
                       <button
                         type="button"
                         onClick={() => setLeader(leader === idx ? undefined : idx)}
                         aria-label={leader === idx ? "Remove leader" : "Make leader"}
                         className={cn(
-                          "flex h-16 w-16 items-center justify-center brutal-border transition-all brutal-shadow-sm hover:brutal-shadow-hover",
+                          "flex h-11 w-11 items-center justify-center brutal-border transition-all brutal-shadow-sm hover:brutal-shadow-hover",
                           leader === idx
-                            ? "bg-warning text-foreground translate-y-[-4px]"
+                            ? "bg-warning text-foreground translate-y-[-2px]"
                             : "bg-background text-foreground/40 hover:text-foreground"
                         )}
                       >
-                        <Crown className={cn("h-8 w-8", leader === idx && "fill-current")} />
+                        <Crown className={cn("h-5 w-5", leader === idx && "fill-current")} />
                       </button>
                       <button
                         type="button"
                         onClick={() => removeParticipant(idx)}
                         disabled={participants.length <= 2}
                         aria-label={`Remove participant ${idx + 1}`}
-                        className="flex h-16 w-16 items-center justify-center brutal-border bg-destructive text-destructive-foreground transition-all brutal-shadow-sm hover:brutal-shadow-hover disabled:opacity-20"
+                        className="flex h-11 w-11 items-center justify-center brutal-border bg-destructive text-destructive-foreground transition-all brutal-shadow-sm hover:brutal-shadow-hover disabled:opacity-20"
                       >
-                        <X className="h-8 w-8" />
+                        <X className="h-5 w-5" />
                       </button>
                     </div>
                   </motion.li>
@@ -196,7 +195,7 @@ export default function SessionPage() {
               <button
                 onClick={addParticipant}
                 disabled={participants.length >= 5}
-                className="w-full brutal-border bg-secondary py-6 text-3xl font-black uppercase transition-all hover:-translate-y-2 brutal-shadow hover:brutal-shadow-lg disabled:opacity-40"
+                className="w-full brutal-border bg-secondary py-4 text-xl font-black uppercase transition-all hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow disabled:opacity-40"
               >
                 + Add participant {participants.length >= 5 && "(max 5)"}
               </button>
@@ -209,33 +208,33 @@ export default function SessionPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="space-y-8"
+              className="space-y-6"
             >
               <div>
-                <h1 className="font-sans font-black text-6xl uppercase tracking-tighter sm:text-8xl leading-none">
+                <h1 className="font-sans font-black text-4xl uppercase tracking-tighter sm:text-6xl leading-none">
                   How will you <br/> <span className="text-secondary">vote?</span>
                 </h1>
-                <p className="mt-6 max-w-2xl text-2xl font-bold leading-tight">
+                <p className="mt-4 max-w-2xl text-lg font-bold leading-tight">
                   QUORUM KEEPS VOTES PRIVATE. PICK HOW THE GROUP WILL PHYSICALLY VOTE.
                 </p>
               </div>
 
-              <div className="grid gap-10 sm:grid-cols-2 mt-12">
+              <div className="grid gap-6 sm:grid-cols-2 mt-8">
                 <ModeCard
                   active={mode === "device"}
                   onClick={() => setMode("device")}
-                  icon={<Smartphone className="h-12 w-12" />}
+                  icon={<Smartphone className="h-10 w-10" />}
                   title="PASS DEVICE"
-                  body="One screen. Each person votes their deck, then passes it. Recommended for same-room groups."
+                  body="One screen. Each person votes their deck, then passes it."
                   badge="STABLE"
                   color="bg-primary"
                 />
                 <ModeCard
                   active={mode === "qr"}
                   onClick={() => setMode("qr")}
-                  icon={<QrCode className="h-12 w-12" />}
+                  icon={<QrCode className="h-10 w-10" />}
                   title="QR SYNC"
-                  body="Display a code, others scan to join from their phone. (Simulated in this preview)"
+                  body="Display a code, others scan to join from their phone."
                   color="bg-accent"
                 />
               </div>
@@ -244,7 +243,7 @@ export default function SessionPage() {
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-12 brutal-border bg-card p-10 brutal-shadow-lg flex items-center gap-10"
+                  className="mt-8 brutal-border bg-card p-6 brutal-shadow flex items-center gap-6"
                 >
                   <div
                     aria-hidden
@@ -398,11 +397,11 @@ export default function SessionPage() {
 
       {/* fixed bottom nav */}
       <div className="fixed inset-x-0 bottom-0 z-50 border-t-8 border-foreground bg-secondary brutal-shadow-lg">
-        <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-6 px-5 py-8 sm:px-8">
+        <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-4 px-5 py-6 sm:px-8">
           <button
             onClick={() => setStep((s) => Math.max(0, s - 1) as Step)}
             disabled={step === 0}
-            className="brutal-border bg-card px-10 py-5 text-2xl font-black uppercase transition-all disabled:opacity-30 hover:-translate-y-2 brutal-shadow hover:brutal-shadow-lg"
+            className="brutal-border bg-card px-8 py-3 text-lg font-black uppercase transition-all disabled:opacity-30 hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow"
           >
             Back
           </button>
@@ -411,19 +410,19 @@ export default function SessionPage() {
             <button
               onClick={() => setStep((s) => Math.min(2, s + 1) as Step)}
               disabled={!validParticipantCount}
-              className="group inline-flex items-center gap-4 brutal-border bg-primary px-14 py-5 text-2xl font-black uppercase text-primary-foreground transition-all disabled:opacity-30 hover:-translate-y-2 brutal-shadow hover:brutal-shadow-lg"
+              className="group inline-flex items-center gap-3 brutal-border bg-primary px-10 py-3 text-xl font-black uppercase text-primary-foreground transition-all disabled:opacity-30 hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow"
             >
               Continue
-              <ArrowRight className="h-8 w-8 transition-transform group-hover:translate-x-2" />
+              <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
             </button>
           ) : (
             <button
               onClick={begin}
               disabled={poolFilter === "genre" && selectedGenres.length === 0}
-              className="group inline-flex items-center gap-4 brutal-border bg-success px-14 py-5 text-2xl font-black uppercase text-success-foreground transition-all disabled:opacity-30 hover:-translate-y-2 brutal-shadow hover:brutal-shadow-lg"
+              className="group inline-flex items-center gap-3 brutal-border bg-success px-10 py-3 text-xl font-black uppercase text-success-foreground transition-all disabled:opacity-30 hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow"
             >
               Start Voting
-              <ArrowRight className="h-8 w-8 transition-transform group-hover:translate-x-2" />
+              <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
             </button>
           )}
         </div>
@@ -454,33 +453,33 @@ function ModeCard({
       type="button"
       onClick={onClick}
       className={cn(
-        "group relative p-8 text-left transition-all brutal-border",
+        "group relative p-6 text-left transition-all brutal-border",
         active 
-          ? `${color || "bg-primary"} text-foreground brutal-shadow-lg translate-y-[-8px]` 
-          : "bg-card text-foreground brutal-shadow hover:brutal-shadow-lg hover:-translate-y-2"
+          ? `${color || "bg-primary"} text-foreground brutal-shadow translate-y-[-4px]` 
+          : "bg-card text-foreground brutal-shadow-sm hover:brutal-shadow hover:-translate-y-1"
       )}
     >
       <div className="flex items-center justify-between">
         <span
           className={cn(
-            "flex h-20 w-20 items-center justify-center brutal-border brutal-shadow-sm transition-transform group-hover:rotate-6",
+            "flex h-14 w-14 items-center justify-center brutal-border brutal-shadow-sm transition-transform group-hover:rotate-6",
             active ? "bg-foreground text-background" : "bg-background text-foreground",
           )}
         >
           {icon}
         </span>
         {badge && (
-          <span className="font-pixel text-lg uppercase tracking-widest bg-foreground text-background px-4 py-1.5 transform -rotate-3">
+          <span className="font-pixel text-sm uppercase tracking-widest bg-foreground text-background px-3 py-1 transform -rotate-3">
             {badge}
           </span>
         )}
       </div>
-      <h3 className="mt-10 font-sans font-black text-4xl uppercase tracking-tighter leading-none">{title}</h3>
-      <p className="mt-4 text-xl font-bold leading-tight opacity-90">{body}</p>
+      <h3 className="mt-6 font-sans font-black text-2xl uppercase tracking-tighter leading-none">{title}</h3>
+      <p className="mt-3 text-base font-bold leading-tight opacity-90">{body}</p>
       
       {active && (
-        <div className="absolute -bottom-4 -right-4 bg-foreground text-background brutal-border p-2 animate-bounce">
-          <ArrowRight className="h-6 w-6 rotate-90" />
+        <div className="absolute -bottom-3 -right-3 bg-foreground text-background brutal-border p-1.5 animate-bounce">
+          <ArrowRight className="h-4 w-4 rotate-90" />
         </div>
       )}
     </button>
