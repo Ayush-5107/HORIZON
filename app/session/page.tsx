@@ -34,6 +34,7 @@ export default function SessionPage() {
   const [poolFilter, setPoolFilter] = useState<"auto" | "genre">("auto")
   const [selectedGenres, setSelectedGenres] = useState<string[]>([])
   const [deckSize, setDeckSize] = useState(15)
+  const [isCustomDeckSize, setIsCustomDeckSize] = useState(false)
 
   const cleanedParticipants = participants
     .map((p, i) => p.trim() || `P${i + 1}`)
@@ -370,14 +371,17 @@ export default function SessionPage() {
                   </div>
                   <h3 className="font-sans text-lg font-black uppercase tracking-tight">Deck Depth</h3>
                 </div>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-5 gap-3">
                   {[10, 15, 20, 30].map((size) => (
                     <button
                       key={size}
-                      onClick={() => setDeckSize(size)}
+                      onClick={() => {
+                        setDeckSize(size)
+                        setIsCustomDeckSize(false)
+                      }}
                       className={cn(
                         "brutal-border py-3 font-pixel text-lg font-black transition-all hover:-translate-y-1",
-                        deckSize === size
+                        deckSize === size && !isCustomDeckSize
                           ? "bg-primary text-primary-foreground brutal-shadow translate-y-0"
                           : "bg-card text-foreground hover:brutal-shadow-sm"
                       )}
@@ -385,6 +389,27 @@ export default function SessionPage() {
                       {size}
                     </button>
                   ))}
+                  
+                  {isCustomDeckSize ? (
+                    <input
+                      type="number"
+                      min={1}
+                      max={30}
+                      value={deckSize}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value) || 1
+                        setDeckSize(Math.min(30, Math.max(1, val)))
+                      }}
+                      className="w-full brutal-border bg-primary text-primary-foreground text-center font-pixel text-lg font-black outline-none brutal-shadow"
+                    />
+                  ) : (
+                    <button
+                      onClick={() => setIsCustomDeckSize(true)}
+                      className="flex items-center justify-center brutal-border py-3 font-pixel transition-all hover:-translate-y-1 bg-card text-foreground hover:brutal-shadow-sm"
+                    >
+                      <Plus className="h-5 w-5" />
+                    </button>
+                  )}
                 </div>
                 <p className="text-[10px] font-bold opacity-60 uppercase tracking-widest">
                   HOW MANY FILMS TO VOTE ON BEFORE THE FINAL TALLY.
