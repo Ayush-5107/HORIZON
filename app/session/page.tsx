@@ -135,10 +135,10 @@ export default function SessionPage() {
               className="space-y-6"
             >
               <div>
-                <h1 className="font-sans font-black text-3xl uppercase tracking-tighter leading-none sm:text-4xl">
+                <h1 className="font-sans font-black text-2xl uppercase tracking-tighter leading-none sm:text-3xl">
                   Who&apos;s in <br/> the <span className="text-primary">room?</span>
                 </h1>
-                <p className="mt-2 max-w-2xl text-base font-bold leading-tight opacity-70">
+                <p className="mt-2 max-w-2xl text-sm font-bold leading-tight opacity-70">
                   ADD 2 TO 5 PARTICIPANTS. NAMES STAY ON THIS DEVICE.
                 </p>
               </div>
@@ -162,7 +162,7 @@ export default function SessionPage() {
                         setParticipants(next)
                       }}
                       placeholder={`Participant ${idx + 1}`}
-                      className="flex-1 bg-transparent px-3 py-3 text-xl font-black outline-none uppercase placeholder:text-muted-foreground/30 tracking-tight"
+                      className="flex-1 bg-transparent px-2 py-2 text-lg font-black outline-none uppercase placeholder:text-muted-foreground/30 tracking-tight"
                     />
                     <div className="flex gap-2 pr-2">
                       <button
@@ -170,22 +170,22 @@ export default function SessionPage() {
                         onClick={() => setLeader(leader === idx ? undefined : idx)}
                         aria-label={leader === idx ? "Remove leader" : "Make leader"}
                         className={cn(
-                          "flex h-11 w-11 items-center justify-center brutal-border transition-all brutal-shadow-sm hover:brutal-shadow-hover",
+                          "flex h-10 w-10 items-center justify-center brutal-border transition-all brutal-shadow-sm hover:brutal-shadow-hover",
                           leader === idx
                             ? "bg-warning text-foreground translate-y-[-2px]"
                             : "bg-background text-foreground/40 hover:text-foreground"
                         )}
                       >
-                        <Crown className={cn("h-5 w-5", leader === idx && "fill-current")} />
+                        <Crown className={cn("h-4 w-4", leader === idx && "fill-current")} />
                       </button>
                       <button
                         type="button"
                         onClick={() => removeParticipant(idx)}
                         disabled={participants.length <= 2}
                         aria-label={`Remove participant ${idx + 1}`}
-                        className="flex h-11 w-11 items-center justify-center brutal-border bg-destructive text-destructive-foreground transition-all brutal-shadow-sm hover:brutal-shadow-hover disabled:opacity-20"
+                        className="flex h-10 w-10 items-center justify-center brutal-border bg-destructive text-destructive-foreground transition-all brutal-shadow-sm hover:brutal-shadow-hover disabled:opacity-20"
                       >
-                        <X className="h-5 w-5" />
+                        <X className="h-4 w-4" />
                       </button>
                     </div>
                   </motion.li>
@@ -195,7 +195,7 @@ export default function SessionPage() {
               <button
                 onClick={addParticipant}
                 disabled={participants.length >= 5}
-                className="w-full brutal-border bg-secondary py-4 text-xl font-black uppercase transition-all hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow disabled:opacity-40"
+                className="w-full brutal-border bg-secondary py-3 text-lg font-black uppercase transition-all hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow disabled:opacity-40"
               >
                 + Add participant {participants.length >= 5 && "(max 5)"}
               </button>
@@ -211,10 +211,10 @@ export default function SessionPage() {
               className="space-y-6"
             >
               <div>
-                <h1 className="font-sans font-black text-4xl uppercase tracking-tighter sm:text-6xl leading-none">
+                <h1 className="font-sans font-black text-3xl uppercase tracking-tighter sm:text-5xl leading-none">
                   How will you <br/> <span className="text-secondary">vote?</span>
                 </h1>
-                <p className="mt-4 max-w-2xl text-lg font-bold leading-tight">
+                <p className="mt-3 max-w-2xl text-base font-bold leading-tight">
                   QUORUM KEEPS VOTES PRIVATE. PICK HOW THE GROUP WILL PHYSICALLY VOTE.
                 </p>
               </div>
@@ -261,8 +261,8 @@ export default function SessionPage() {
                     ))}
                   </div>
                   <div>
-                    <p className="font-sans font-black text-4xl uppercase tracking-tighter">Scan to join</p>
-                    <p className="mt-4 text-xl font-bold leading-tight opacity-70">
+                    <p className="font-sans font-black text-3xl uppercase tracking-tighter">Scan to join</p>
+                    <p className="mt-3 text-base font-bold leading-tight opacity-70">
                       In this prototype, QR mode runs the same flow on a single device — useful for
                       previewing the multi-user experience.
                     </p>
@@ -281,10 +281,10 @@ export default function SessionPage() {
               className="space-y-8"
             >
               <div>
-                <h1 className="font-sans font-black text-6xl uppercase tracking-tighter sm:text-8xl leading-none">
+                <h1 className="font-sans font-black text-4xl uppercase tracking-tighter sm:text-5xl leading-none">
                   The movie <br/> <span className="text-accent">deck.</span>
                 </h1>
-                <p className="mt-6 max-w-2xl text-2xl font-bold leading-tight">
+                <p className="mt-4 max-w-2xl text-xl font-bold leading-tight">
                   EACH PARTICIPANT SEES THE SAME 15-CARD DECK. USE AUTO OR PICK GENRES.
                 </p>
               </div>
@@ -332,10 +332,10 @@ export default function SessionPage() {
                 </div>
               )}
 
-              <div className="mt-12 brutal-border bg-card p-8 brutal-shadow-lg">
-                <div className="flex items-center justify-between border-b-8 border-foreground pb-6 mb-8">
-                  <p className="text-4xl font-black uppercase tracking-tighter">Deck preview</p>
-                  <p className="font-pixel text-2xl font-black bg-foreground text-background px-5 py-2 transform rotate-1">
+              <div className="mt-8 brutal-border bg-card p-6 brutal-shadow-lg">
+                <div className="flex items-center justify-between border-b-4 border-foreground pb-4 mb-6">
+                  <p className="text-3xl font-black uppercase tracking-tighter">Deck preview</p>
+                  <p className="font-pixel text-xl font-black bg-foreground text-background px-4 py-1.5 transform rotate-1">
                     {moviePool.length} CARDS
                   </p>
                 </div>
@@ -363,12 +363,12 @@ export default function SessionPage() {
               </div>
 
               {/* Deck Size */}
-              <section className="space-y-4 pt-8">
+              <section className="space-y-4 pt-6">
                 <div className="flex items-center gap-3">
                   <div className="brutal-border bg-foreground p-1.5 text-background">
                     <ArrowRight className="h-4 w-4" />
                   </div>
-                  <h3 className="font-sans text-xl font-black uppercase tracking-tight">Deck Depth</h3>
+                  <h3 className="font-sans text-lg font-black uppercase tracking-tight">Deck Depth</h3>
                 </div>
                 <div className="grid grid-cols-4 gap-4">
                   {[10, 15, 20, 30].map((size) => (
@@ -376,7 +376,7 @@ export default function SessionPage() {
                       key={size}
                       onClick={() => setDeckSize(size)}
                       className={cn(
-                        "brutal-border py-4 font-pixel text-xl font-black transition-all hover:-translate-y-1",
+                        "brutal-border py-3 font-pixel text-lg font-black transition-all hover:-translate-y-1",
                         deckSize === size
                           ? "bg-primary text-primary-foreground brutal-shadow translate-y-0"
                           : "bg-card text-foreground hover:brutal-shadow-sm"
@@ -386,7 +386,7 @@ export default function SessionPage() {
                     </button>
                   ))}
                 </div>
-                <p className="text-xs font-bold opacity-60 uppercase tracking-widest">
+                <p className="text-[10px] font-bold opacity-60 uppercase tracking-widest">
                   HOW MANY FILMS TO VOTE ON BEFORE THE FINAL TALLY.
                 </p>
               </section>
@@ -396,12 +396,12 @@ export default function SessionPage() {
       </div>
 
       {/* fixed bottom nav */}
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t-8 border-foreground bg-secondary brutal-shadow-lg">
-        <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-4 px-5 py-6 sm:px-8">
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t-4 border-foreground bg-secondary brutal-shadow-lg">
+        <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
           <button
             onClick={() => setStep((s) => Math.max(0, s - 1) as Step)}
             disabled={step === 0}
-            className="brutal-border bg-card px-8 py-3 text-lg font-black uppercase transition-all disabled:opacity-30 hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow"
+            className="brutal-border bg-card px-6 py-2.5 text-base font-black uppercase transition-all disabled:opacity-30 hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow"
           >
             Back
           </button>
@@ -410,19 +410,19 @@ export default function SessionPage() {
             <button
               onClick={() => setStep((s) => Math.min(2, s + 1) as Step)}
               disabled={!validParticipantCount}
-              className="group inline-flex items-center gap-3 brutal-border bg-primary px-10 py-3 text-xl font-black uppercase text-primary-foreground transition-all disabled:opacity-30 hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow"
+              className="group inline-flex items-center gap-2 brutal-border bg-primary px-8 py-2.5 text-lg font-black uppercase text-primary-foreground transition-all disabled:opacity-30 hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow"
             >
               Continue
-              <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </button>
           ) : (
             <button
               onClick={begin}
               disabled={poolFilter === "genre" && selectedGenres.length === 0}
-              className="group inline-flex items-center gap-3 brutal-border bg-success px-10 py-3 text-xl font-black uppercase text-success-foreground transition-all disabled:opacity-30 hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow"
+              className="group inline-flex items-center gap-2 brutal-border bg-success px-8 py-2.5 text-lg font-black uppercase text-success-foreground transition-all disabled:opacity-30 hover:-translate-y-1 brutal-shadow-sm hover:brutal-shadow"
             >
               Start Voting
-              <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </button>
           )}
         </div>
@@ -453,7 +453,7 @@ function ModeCard({
       type="button"
       onClick={onClick}
       className={cn(
-        "group relative p-6 text-left transition-all brutal-border",
+        "group relative p-4 text-left transition-all brutal-border",
         active 
           ? `${color || "bg-primary"} text-foreground brutal-shadow translate-y-[-4px]` 
           : "bg-card text-foreground brutal-shadow-sm hover:brutal-shadow hover:-translate-y-1"
@@ -462,20 +462,20 @@ function ModeCard({
       <div className="flex items-center justify-between">
         <span
           className={cn(
-            "flex h-14 w-14 items-center justify-center brutal-border brutal-shadow-sm transition-transform group-hover:rotate-6",
+            "flex h-12 w-12 items-center justify-center brutal-border brutal-shadow-sm transition-transform group-hover:rotate-6",
             active ? "bg-foreground text-background" : "bg-background text-foreground",
           )}
         >
           {icon}
         </span>
         {badge && (
-          <span className="font-pixel text-sm uppercase tracking-widest bg-foreground text-background px-3 py-1 transform -rotate-3">
+          <span className="font-pixel text-xs uppercase tracking-widest bg-foreground text-background px-3 py-1 transform -rotate-3">
             {badge}
           </span>
         )}
       </div>
-      <h3 className="mt-6 font-sans font-black text-2xl uppercase tracking-tighter leading-none">{title}</h3>
-      <p className="mt-3 text-base font-bold leading-tight opacity-90">{body}</p>
+      <h3 className="mt-4 font-sans font-black text-xl uppercase tracking-tighter leading-none">{title}</h3>
+      <p className="mt-2 text-sm font-bold leading-tight opacity-90">{body}</p>
       
       {active && (
         <div className="absolute -bottom-3 -right-3 bg-foreground text-background brutal-border p-1.5 animate-bounce">
