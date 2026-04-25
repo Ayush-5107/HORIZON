@@ -215,7 +215,7 @@ export function tallyVotes(
   votes: Record<number, Record<string, VoteValue>>,
   pool: string[],
 ): { ranked: { movieId: string; score: number; counts: Record<VoteValue, number> }[]; tied: string[] } {
-  const totals = pool.map((movieId) => {
+  const totals = pool.map((movieId, originalIndex) => {
     let score = 0
     const counts: Record<VoteValue, number> = { yes: 0, no: 0, love: 0 }
     Object.values(votes).forEach((perUser) => {
@@ -224,12 +224,30 @@ export function tallyVotes(
       counts[v] += 1
       score += VOTE_SCORE[v]
     })
-    return { movieId, score, counts }
+    return { movieId, score, counts, originalIndex }
   })
-  totals.sort((a, b) => b.score - a.score)
+
+  // Deterministic sort: score DESC → love DESC → yes DESC → original order ASC
+  totals.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score
+    if (b.counts.love !== a.counts.love) return b.counts.love - a.counts.love
+    if (b.counts.yes !== a.counts.yes) return b.counts.yes - a.counts.yes
+    return a.originalIndex - b.originalIndex
+  })
+
   const top = totals[0]?.score ?? 0
-  const tied = totals.filter((t) => t.score === top && top > 0).map((t) => t.movieId)
-  return { ranked: totals, tied }
+  // Only report a tie if movies share the EXACT same score AND love AND yes counts
+  const tied = top > 0
+    ? totals.filter((t) =>
+        t.score === top &&
+        t.counts.love === totals[0].counts.love &&
+        t.counts.yes === totals[0].counts.yes
+      ).map((t) => t.movieId)
+    : []
+
+  // Strip originalIndex from output
+  const ranked = totals.map(({ originalIndex: _, ...rest }) => rest)
+  return { ranked, tied }
 }
 
 // Rematch: keep the same participants and config, but drop the previous

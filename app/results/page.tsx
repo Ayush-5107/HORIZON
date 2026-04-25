@@ -111,89 +111,87 @@ export default function ResultsPage() {
           animate={{ scale: 1, opacity: 1 }}
           className="relative overflow-hidden brutal-border bg-primary brutal-shadow-lg"
         >
-          {/* Ambient Background Glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.15),transparent_70%)]" />
           
-          <div className="relative grid gap-0 lg:grid-cols-[400px_1fr]">
-            {/* Cinematic Poster */}
-            <div className="relative aspect-[2/3] overflow-hidden border-b-4 lg:border-b-0 lg:border-r-4 border-foreground group">
-              <Poster movie={winner} className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground via-transparent to-transparent opacity-40" />
+          <div className="relative grid gap-0 lg:grid-cols-[280px_1fr]">
+            {/* Poster */}
+            <div className="relative aspect-[2/3] max-h-[420px] overflow-hidden border-b-4 lg:border-b-0 lg:border-r-4 border-foreground group">
+              <Poster movie={winner} className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
               
-              {/* Winner Floating Badge */}
               <motion.div 
-                animate={{ y: [0, -10, 0], rotate: [-5, -2, -5] }}
+                animate={{ y: [0, -6, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-6 left-6 z-20 bg-success text-success-foreground brutal-border px-6 py-2 text-2xl font-black uppercase tracking-tighter shadow-[6px_6px_0px_var(--foreground)]"
+                className="absolute top-4 left-4 z-20 bg-success text-success-foreground brutal-border px-4 py-1.5 text-lg font-black uppercase tracking-tighter shadow-[4px_4px_0px_var(--foreground)]"
               >
                 #1 PICK
               </motion.div>
             </div>
 
-            {/* Winner Info */}
-            <div className="flex flex-col justify-center p-8 lg:p-16 space-y-8">
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <span className="font-pixel text-sm uppercase tracking-widest bg-foreground text-background px-4 py-1.5 font-black inline-flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary" />
+            {/* Info */}
+            <div className="flex flex-col justify-center p-6 lg:p-10 space-y-5">
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-pixel text-[10px] uppercase tracking-widest bg-foreground text-background px-3 py-1 font-black inline-flex items-center gap-1.5">
+                    <Sparkles className="h-3 w-3 text-primary" />
                     QUORUM CONSENSUS
                   </span>
                   {cameFromTie && (
-                    <span className="font-pixel text-sm uppercase tracking-widest bg-secondary text-foreground px-4 py-1.5 brutal-border font-black">
-                      TIE-BREAKER WIN
+                    <span className="font-pixel text-[10px] uppercase tracking-widest bg-secondary text-foreground px-3 py-1 brutal-border font-black">
+                      TIE-BREAKER
                     </span>
                   )}
                 </div>
                 
-                <h1 className="text-balance font-sans text-6xl font-black uppercase leading-[0.85] tracking-tighter sm:text-8xl lg:text-9xl">
+                <h1 className="text-balance font-sans text-4xl font-black uppercase leading-[0.9] tracking-tighter sm:text-5xl lg:text-6xl">
                   {winner.title}
                 </h1>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4">
-                <GenreTag genre={winner.genre} className="brutal-border bg-background text-foreground text-lg px-5 py-1.5" />
-                <div className="flex items-center gap-2 brutal-border bg-background text-foreground px-4 py-1.5 text-base font-black uppercase">
-                  <Star className="h-5 w-5 fill-primary text-primary" />
+              <div className="flex flex-wrap items-center gap-3">
+                <GenreTag genre={winner.genre} className="brutal-border bg-background text-foreground text-sm px-3 py-1" />
+                <div className="flex items-center gap-1.5 brutal-border bg-background text-foreground px-3 py-1 text-sm font-black uppercase">
+                  <Star className="h-4 w-4 fill-primary text-primary" />
                   {winner.rating.toFixed(1)}
                 </div>
-                <div className="brutal-border bg-background text-foreground px-4 py-1.5 text-base font-black uppercase">
+                <div className="brutal-border bg-background text-foreground px-3 py-1 text-sm font-black uppercase">
                   {winner.runtime}m
                 </div>
               </div>
 
               {winnerRow && (
-                <div className="space-y-4">
-                  <p className="font-pixel text-xs uppercase tracking-widest opacity-70">Victory Statistics</p>
-                  <div className="flex flex-wrap gap-4">
-                    <div className="flex items-center gap-3 brutal-border bg-secondary text-secondary-foreground px-5 py-2">
-                      <Heart className="h-5 w-5" />
-                      <span className="font-pixel text-2xl font-black">{winnerRow.counts.love}</span>
-                      <span className="text-xs font-bold uppercase">Loves</span>
+                <div className="space-y-2">
+                  <p className="font-pixel text-[10px] uppercase tracking-widest opacity-60">Victory Statistics</p>
+                  <div className="flex flex-wrap gap-3">
+                    <div className="flex items-center gap-2 brutal-border bg-secondary text-secondary-foreground px-3 py-1.5">
+                      <Heart className="h-4 w-4" />
+                      <span className="font-pixel text-lg font-black">{winnerRow.counts.love}</span>
+                      <span className="text-[10px] font-bold uppercase">Loves</span>
                     </div>
-                    <div className="flex items-center gap-3 brutal-border bg-success text-success-foreground px-5 py-2">
-                      <ThumbsUp className="h-5 w-5" />
-                      <span className="font-pixel text-2xl font-black">{winnerRow.counts.yes}</span>
-                      <span className="text-xs font-bold uppercase">Yeses</span>
+                    <div className="flex items-center gap-2 brutal-border bg-success text-success-foreground px-3 py-1.5">
+                      <ThumbsUp className="h-4 w-4" />
+                      <span className="font-pixel text-lg font-black">{winnerRow.counts.yes}</span>
+                      <span className="text-[10px] font-bold uppercase">Yeses</span>
                     </div>
-                    <div className="flex items-center gap-3 brutal-border bg-destructive text-destructive-foreground px-5 py-2">
-                      <ThumbsDown className="h-5 w-5" />
-                      <span className="font-pixel text-2xl font-black">{winnerRow.counts.no}</span>
-                      <span className="text-xs font-bold uppercase">Nos</span>
+                    <div className="flex items-center gap-2 brutal-border bg-destructive text-destructive-foreground px-3 py-1.5">
+                      <ThumbsDown className="h-4 w-4" />
+                      <span className="font-pixel text-lg font-black">{winnerRow.counts.no}</span>
+                      <span className="text-[10px] font-bold uppercase">Nos</span>
                     </div>
                   </div>
                 </div>
               )}
 
-              <p className="max-w-xl text-xl font-bold leading-tight opacity-90 font-sans border-l-4 border-foreground pl-6 py-2">
+              <p className="max-w-lg text-base font-bold leading-snug opacity-80 font-sans border-l-4 border-foreground pl-4 py-1">
                 {winner.synopsis}
               </p>
 
-              <div className="flex flex-wrap gap-4 pt-4">
+              <div className="flex flex-wrap gap-3 pt-2">
                 <button
                   onClick={() => setShowWatch(true)}
-                  className="group inline-flex items-center gap-3 brutal-border bg-secondary px-8 py-4 text-xl font-black uppercase text-foreground transition-all hover:translate-y-[-4px] brutal-shadow-sm hover:brutal-shadow"
+                  className="group inline-flex items-center gap-2 brutal-border bg-secondary px-6 py-3 text-base font-black uppercase text-foreground transition-all hover:translate-y-[-2px] brutal-shadow-sm hover:brutal-shadow"
                 >
-                  <Tv className="h-6 w-6" />
+                  <Tv className="h-5 w-5" />
                   Watch Room
                 </button>
                 <button
@@ -201,9 +199,9 @@ export default function ResultsPage() {
                     rematchSession()
                     router.push("/vote")
                   }}
-                  className="inline-flex items-center gap-3 brutal-border bg-card px-8 py-4 text-xl font-black uppercase text-foreground transition-all hover:translate-y-[-4px] brutal-shadow-sm hover:brutal-shadow"
+                  className="inline-flex items-center gap-2 brutal-border bg-card px-6 py-3 text-base font-black uppercase text-foreground transition-all hover:translate-y-[-2px] brutal-shadow-sm hover:brutal-shadow"
                 >
-                  <Repeat className="h-6 w-6" />
+                  <Repeat className="h-5 w-5" />
                   Rematch
                 </button>
               </div>
@@ -215,15 +213,15 @@ export default function ResultsPage() {
         <Insight winnerId={winner.id} fullTally={fullTally} cameFromTie={cameFromTie} />
 
         {/* Leaderboard / Podium */}
-        <section className="mt-20">
-          <div className="border-b-4 border-foreground pb-4 mb-10">
-            <h2 className="font-sans text-5xl font-black uppercase tracking-tighter">The Podium</h2>
-            <p className="mt-2 text-lg font-bold opacity-70">
+        <section className="mt-12">
+          <div className="border-b-4 border-foreground pb-3 mb-6">
+            <h2 className="font-sans text-3xl font-black uppercase tracking-tighter">The Podium</h2>
+            <p className="mt-1 text-sm font-bold opacity-70">
               TOP THREE WEIGHTED SCORERS.
             </p>
           </div>
           
-          <div className="grid gap-6 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-3">
             {top3.map((row, i) => {
               const m = getMovieById(row.movieId)
               if (!m) return null
@@ -235,35 +233,35 @@ export default function ResultsPage() {
                   transition={{ delay: i * 0.1 }}
                   key={m.id}
                   className={cn(
-                    "relative group brutal-border bg-card p-6 brutal-shadow hover:brutal-shadow-lg transition-all hover:-translate-y-2",
-                    i === 0 ? "bg-primary/10 ring-4 ring-primary" : ""
+                    "relative group brutal-border bg-card p-4 brutal-shadow-sm hover:brutal-shadow transition-all hover:-translate-y-1",
+                    i === 0 ? "bg-primary/10 ring-2 ring-primary" : ""
                   )}
                 >
-                  <div className="absolute -top-6 -right-4 z-10 font-pixel text-4xl font-black bg-foreground text-background px-4 py-2 transform rotate-12">
+                  <div className="absolute -top-4 -right-3 z-10 font-pixel text-2xl font-black bg-foreground text-background px-3 py-1 transform rotate-12">
                     #{i + 1}
                   </div>
                   
-                  <div className="flex gap-6">
-                    <div className="relative h-48 w-32 shrink-0 overflow-hidden brutal-border brutal-shadow-sm">
+                  <div className="flex gap-4">
+                    <div className="relative h-36 w-24 shrink-0 overflow-hidden brutal-border brutal-shadow-sm">
                       <Poster movie={m} className="h-full w-full" />
                     </div>
-                    <div className="flex-1 flex flex-col justify-between py-2">
+                    <div className="flex-1 flex flex-col justify-between py-1">
                       <div>
-                        <span className="font-pixel text-2xl font-black text-primary">
+                        <span className="font-pixel text-lg font-black text-primary">
                           {row.score} PTS
                         </span>
-                        <h3 className="mt-3 font-sans text-2xl font-black uppercase leading-none tracking-tight">
+                        <h3 className="mt-1 font-sans text-lg font-black uppercase leading-none tracking-tight">
                           {m.title}
                         </h3>
                       </div>
                       
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        <span className="inline-flex items-center gap-1.5 bg-success text-success-foreground brutal-border px-2 py-1 text-sm font-black">
-                          <ThumbsUp className="h-4 w-4" />
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        <span className="inline-flex items-center gap-1 bg-success text-success-foreground brutal-border px-1.5 py-0.5 text-xs font-black">
+                          <ThumbsUp className="h-3 w-3" />
                           {row.counts.yes}
                         </span>
-                        <span className="inline-flex items-center gap-1.5 bg-secondary text-secondary-foreground brutal-border px-2 py-1 text-sm font-black">
-                          <Heart className="h-4 w-4" />
+                        <span className="inline-flex items-center gap-1 bg-secondary text-secondary-foreground brutal-border px-1.5 py-0.5 text-xs font-black">
+                          <Heart className="h-3 w-3" />
                           {row.counts.love}
                         </span>
                       </div>
@@ -276,31 +274,31 @@ export default function ResultsPage() {
         </section>
 
         {/* Room Sentiment Overview */}
-        <section className="mt-20">
-          <div className="border-b-4 border-foreground pb-4 mb-8">
-            <h2 className="font-sans text-4xl font-black uppercase tracking-tighter">Room Sentiment</h2>
-            <p className="mt-2 text-lg font-bold opacity-70">
+        <section className="mt-12">
+          <div className="border-b-4 border-foreground pb-3 mb-6">
+            <h2 className="font-sans text-3xl font-black uppercase tracking-tighter">Room Sentiment</h2>
+            <p className="mt-1 text-sm font-bold opacity-70">
               CUMULATIVE ENGAGEMENT ACROSS ALL BALLOTS.
             </p>
           </div>
           
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <SentimentCard 
               label="Total Love" 
               value={Object.values(votes).reduce((acc, v) => acc + Object.values(v || {}).filter(x => x === "love").length, 0)}
-              icon={<Heart className="h-6 w-6 text-primary" />}
+              icon={<Heart className="h-5 w-5 text-primary" />}
               sub="Highest signal"
             />
             <SentimentCard 
               label="Consensus" 
               value={Object.values(votes).reduce((acc, v) => acc + Object.values(v || {}).filter(x => x === "yes").length, 0)}
-              icon={<ThumbsUp className="h-6 w-6 text-success" />}
+              icon={<ThumbsUp className="h-5 w-5 text-success" />}
               sub="Agreement"
             />
             <SentimentCard 
               label="Objections" 
               value={Object.values(votes).reduce((acc, v) => acc + Object.values(v || {}).filter(x => x === "no").length, 0)}
-              icon={<ThumbsDown className="h-6 w-6 text-destructive" />}
+              icon={<ThumbsDown className="h-5 w-5 text-destructive" />}
               sub="Friction"
             />
             <SentimentCard 
@@ -311,24 +309,24 @@ export default function ResultsPage() {
                 const actual = Object.values(votes).reduce((acc, v) => acc + Object.values(v || {}).length, 0)
                 return Math.round((actual / totalPossible) * 100)
               })()}%`}
-              icon={<Star className="h-6 w-6 text-secondary" />}
+              icon={<Star className="h-5 w-5 text-secondary" />}
               sub="Ballot fill rate"
             />
           </div>
         </section>
 
         {/* Full Tally Table */}
-        <section className="mt-20">
-          <div className="border-b-4 border-foreground pb-4 mb-8">
-            <h2 className="font-sans text-4xl font-black uppercase tracking-tighter">Full Rankings</h2>
-            <p className="mt-2 text-lg font-bold opacity-70">
+        <section className="mt-12">
+          <div className="border-b-4 border-foreground pb-3 mb-6">
+            <h2 className="font-sans text-3xl font-black uppercase tracking-tighter">Full Rankings</h2>
+            <p className="mt-1 text-sm font-bold opacity-70">
               WEIGHTED SCORE DISTRIBUTION FOR THE ENTIRE POOL.
             </p>
           </div>
           
           <div className="overflow-x-auto brutal-border bg-card brutal-shadow-sm">
             <table className="w-full text-left">
-              <thead className="bg-secondary font-pixel text-lg font-black uppercase border-b-4 border-foreground">
+              <thead className="bg-secondary font-pixel text-sm font-black uppercase border-b-4 border-foreground">
                 <tr>
                   <th className="px-6 py-4">Film</th>
                   <th className="px-6 py-4">Distribution</th>
@@ -442,15 +440,15 @@ function Insight({
 
   const conflict = fullTally.ranked.filter((r) => r.counts.no > 0 && r.counts.love > 0).length
   return (
-    <section className="mt-10 brutal-border bg-card p-6 brutal-shadow-md">
-      <p className="font-pixel text-xl font-bold uppercase bg-foreground text-background px-3 py-1 inline-block">
+    <section className="mt-8 brutal-border bg-card p-4 brutal-shadow-sm">
+      <p className="font-pixel text-lg font-bold uppercase bg-foreground text-background px-3 py-1 inline-block">
         INSIGHT
       </p>
-      <p className="mt-4 text-pretty font-sans text-3xl font-bold uppercase leading-tight">
+      <p className="mt-3 text-pretty font-sans text-2xl font-bold uppercase leading-tight">
         {line}
       </p>
       {conflict > 0 && (
-        <p className="mt-4 text-lg font-bold">
+        <p className="mt-3 text-base font-bold opacity-80">
           {conflict} {conflict === 1 ? "FILM" : "FILMS"} POLARISED THE ROOM — STRONG LOVES AND STRONG NOS.
         </p>
       )}
@@ -676,15 +674,15 @@ function WatchRoom({ title, onClose }: { title: string; onClose: () => void }) {
 }
 function SentimentCard({ label, value, icon, sub }: { label: string; value: string | number; icon: React.ReactNode; sub: string }) {
   return (
-    <div className="brutal-border bg-card p-6 brutal-shadow-sm hover:brutal-shadow transition-all hover:-translate-y-1">
-      <div className="flex items-center justify-between mb-4">
-        <div className="brutal-border bg-background p-2">
+    <div className="brutal-border bg-card p-4 brutal-shadow-sm hover:brutal-shadow transition-all hover:-translate-y-1">
+      <div className="flex items-center justify-between mb-3">
+        <div className="brutal-border bg-background p-1.5">
           {icon}
         </div>
-        <span className="font-pixel text-2xl font-black text-primary">{value}</span>
+        <span className="font-pixel text-xl font-black text-primary">{value}</span>
       </div>
-      <p className="font-sans text-xl font-black uppercase tracking-tight">{label}</p>
-      <p className="mt-1 text-xs font-bold opacity-50 uppercase tracking-widest">{sub}</p>
+      <p className="font-sans text-lg font-black uppercase tracking-tight">{label}</p>
+      <p className="mt-0.5 text-[10px] font-bold opacity-60 uppercase tracking-widest">{sub}</p>
     </div>
   )
 }
