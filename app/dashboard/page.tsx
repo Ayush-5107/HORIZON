@@ -94,33 +94,49 @@ export default function DashboardPage() {
           {/* Main Content */}
           <div className="space-y-12">
             {/* Feature Hub / Quick Actions */}
-            <section className="grid sm:grid-cols-2 gap-6">
-              <div 
-                onClick={() => router.push("/reels")}
-                className="group brutal-border bg-accent p-8 brutal-shadow hover:brutal-shadow-lg transition-all cursor-pointer relative overflow-hidden"
+            <section className="grid gap-6 lg:grid-cols-2">
+              <Link
+                href="/reels"
+                className="group relative overflow-hidden brutal-border bg-accent p-8 brutal-shadow transition-all hover:translate-y-[-4px] hover:brutal-shadow-lg"
               >
                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
                   <Film size={80} />
                 </div>
-                <h3 className="text-3xl font-black uppercase tracking-tighter mb-2">Discovery feed</h3>
-                <p className="font-bold opacity-70 mb-6">Swipe through 100+ titles and build your taste profile.</p>
-                <div className="brutal-border bg-background px-4 py-2 w-fit text-sm font-black uppercase brutal-shadow-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  Launch Reels
+                <h3 className="text-3xl font-black uppercase tracking-tighter mb-2">Discovery Feed</h3>
+                <p className="font-bold opacity-70 mb-6">Swipe through 100+ titles and build your personal interest profile.</p>
+                <div className="inline-flex items-center gap-2 bg-foreground text-background px-4 py-2 font-pixel text-sm uppercase font-black">
+                  Launch CineReels <ArrowRight className="h-4 w-4" />
                 </div>
-              </div>
+              </Link>
 
-              <div 
-                onClick={() => router.push("/session")}
-                className="group brutal-border bg-primary p-8 brutal-shadow hover:brutal-shadow-lg transition-all cursor-pointer relative overflow-hidden"
+              <Link
+                href="/session"
+                className="group relative overflow-hidden brutal-border bg-primary p-8 brutal-shadow transition-all hover:translate-y-[-4px] hover:brutal-shadow-lg"
               >
-                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity text-primary-foreground">
-                  <Users size={80} />
+                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+                  <Vote size={80} />
                 </div>
-                <h3 className="text-3xl font-black uppercase tracking-tighter mb-2 text-primary-foreground">Start session</h3>
-                <p className="font-bold text-primary-foreground/70 mb-6">Gather your group and let the automaton decide.</p>
-                <div className="brutal-border bg-background px-4 py-2 w-fit text-sm font-black uppercase brutal-shadow-sm group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
-                  Initialize
+                <h3 className="text-3xl font-black uppercase tracking-tighter mb-2 text-primary-foreground">Start Session</h3>
+                <p className="font-bold text-primary-foreground/70 mb-6">Gather the room, sync devices, and reach a weighted consensus.</p>
+                <div className="inline-flex items-center gap-2 bg-primary-foreground text-primary px-4 py-2 font-pixel text-sm uppercase font-black">
+                  Open Engine <ArrowRight className="h-4 w-4" />
                 </div>
+              </Link>
+            </section>
+
+            {/* Stats & Insights */}
+            <section className="grid gap-6 sm:grid-cols-3">
+              <div className="brutal-border bg-card p-6 brutal-shadow-sm">
+                <span className="block font-pixel text-xs uppercase opacity-50 mb-2">Total Votes</span>
+                <div className="text-4xl font-black">1,284</div>
+              </div>
+              <div className="brutal-border bg-card p-6 brutal-shadow-sm">
+                <span className="block font-pixel text-xs uppercase opacity-50 mb-2">Watchlist Size</span>
+                <div className="text-4xl font-black">{user.watchlist.length}</div>
+              </div>
+              <div className="brutal-border bg-card p-6 brutal-shadow-sm">
+                <span className="block font-pixel text-xs uppercase opacity-50 mb-2">Consensus Rate</span>
+                <div className="text-4xl font-black">94%</div>
               </div>
             </section>
 

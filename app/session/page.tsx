@@ -116,7 +116,7 @@ export default function SessionPage() {
             <li
               key={i}
               className={cn(
-                "h-6 flex-1 brutal-border transition-all duration-500",
+                "h-3 flex-1 brutal-border transition-all duration-500",
                 step >= i ? "bg-primary brutal-shadow-sm translate-y-[-2px]" : "bg-card opacity-50"
               )}
             />
@@ -130,27 +130,27 @@ export default function SessionPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="space-y-8"
+              className="space-y-6"
             >
               <div>
-                <h1 className="font-sans font-black text-6xl uppercase tracking-tighter sm:text-8xl leading-none">
+                <h1 className="font-sans font-black text-5xl uppercase tracking-tighter leading-none">
                   Who&apos;s in <br/> the <span className="text-primary">room?</span>
                 </h1>
-                <p className="mt-6 max-w-2xl text-2xl font-bold leading-tight">
-                  ADD 2 TO 5 PARTICIPANTS. NAMES STAY ON THIS DEVICE TO KEEP VOTES ANONYMOUS.
+                <p className="mt-4 max-w-2xl text-lg font-bold leading-tight opacity-70">
+                  ADD 2 TO 5 PARTICIPANTS. NAMES STAY ON THIS DEVICE.
                 </p>
               </div>
 
-              <ul className="space-y-6 mt-12">
+              <ul className="space-y-3 mt-8">
                 {participants.map((value, idx) => (
                   <motion.li
                     layout
                     key={idx}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-4 brutal-border bg-card p-3 pl-6 brutal-shadow focus-within:brutal-shadow-lg transition-all focus-within:-translate-y-1"
+                    className="flex items-center gap-3 brutal-border bg-card p-2 pl-4 brutal-shadow transition-all focus-within:brutal-shadow-lg"
                   >
-                    <span className="font-pixel text-3xl font-black bg-foreground text-background px-4 py-2 transform rotate-3">
+                    <span className="font-pixel text-xl font-black bg-foreground text-background px-2 py-1">
                       P{idx + 1}
                     </span>
                     <input

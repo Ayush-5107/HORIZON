@@ -36,58 +36,75 @@ export default function HomePage() {
       </header>
 
       {/* hero */}
-      <section className="relative z-10 border-b-4 border-foreground bg-background">
-        <div className="mx-auto grid w-full max-w-7xl gap-0 lg:grid-cols-2 divide-y-4 lg:divide-y-0 lg:divide-x-4 divide-foreground border-x-4 border-foreground my-6 sm:my-12 brutal-shadow bg-card overflow-hidden">
-          <motion.div 
-            initial={{ x: -30, opacity: 0 }}
+      <section className="relative z-10 mx-auto grid w-full max-w-6xl gap-0 lg:grid-cols-2">
+        {/* left content */}
+        <div className="flex flex-col justify-center bg-background px-5 py-12 sm:px-10 lg:py-24 border-b-4 lg:border-b-0 lg:border-r-4 border-foreground">
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            className="p-8 sm:p-16 bg-secondary flex flex-col justify-center relative overflow-hidden"
+            className="space-y-8"
           >
-            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(var(--foreground) 2px, transparent 2px)", backgroundSize: "24px 24px" }} />
-            
-            <div className="relative z-10 inline-flex items-center gap-3 brutal-border bg-accent px-4 py-2 text-xs font-black uppercase brutal-shadow-sm mb-10 w-fit">
+            <div className="flex w-fit items-center gap-2 brutal-border bg-accent px-4 py-1.5 font-pixel text-xs font-black uppercase tracking-widest brutal-shadow-sm">
               <Sparkles className="h-4 w-4" />
               <span>Version 1.0.4 — Build Stable</span>
             </div>
 
-            <h1 className="relative z-10 text-balance font-sans text-5xl md:text-7xl uppercase leading-[0.9] tracking-tighter font-black">
-              GROUP <br/> DECISION <br/> <span className="bg-primary text-primary-foreground px-4 py-1 mt-2 inline-block transform -rotate-1 shadow-[8px_8px_0px_var(--foreground)]">AUTOMATED.</span>
+            <h1 className="relative z-10 text-balance font-sans text-5xl md:text-6xl uppercase leading-[0.95] tracking-tighter font-black">
+              GROUP <br/> DECISION <br/> <span className="bg-primary text-primary-foreground px-4 py-1 mt-2 inline-block transform -rotate-1 brutal-shadow">AUTOMATED.</span>
             </h1>
 
-            <p className="relative z-10 mt-10 max-w-xl text-pretty text-2xl font-black font-sans leading-tight">
+            <p className="relative z-10 mt-8 max-w-xl text-pretty text-xl font-bold font-sans leading-tight opacity-80">
               QUORUM SOLVES THE &quot;WHAT SHOULD WE WATCH?&quot; DILEMMA THROUGH BLIND-VOTING AND WEIGHTED CONSENSUS.
             </p>
 
-            <div className="relative z-10 mt-12 flex flex-wrap items-center gap-6">
+            <div className="relative z-10 mt-10 flex flex-wrap items-center gap-6">
               <Link
                 href="/login"
-                className="group inline-flex items-center gap-4 brutal-border bg-primary px-8 py-5 text-2xl font-black uppercase text-primary-foreground brutal-shadow-hover active:brutal-shadow-active transition-all"
+                className="group inline-flex items-center gap-4 brutal-border bg-primary px-8 py-4 text-xl font-black uppercase text-primary-foreground brutal-shadow hover:translate-y-[-2px] transition-all"
               >
                 Launch Session
-                <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-2" />
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-2" />
               </Link>
             </div>
           </motion.div>
-
-          {/* poster collage */}
-          <motion.div 
-            initial={{ x: 30, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="relative h-[500px] lg:h-auto w-full bg-accent p-12 overflow-hidden flex items-center justify-center"
-          >
-            <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "linear-gradient(45deg, var(--foreground) 1px, transparent 1px), linear-gradient(-45deg, var(--foreground) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-            
-            <div className="relative z-10 grid grid-cols-2 gap-4 w-full max-w-sm">
-              <div className="brutal-border bg-card p-2 brutal-shadow-sm rotate-3">
-                <Poster movie={featured[0]} className="w-full border-0 shadow-none" />
-              </div>
-              <div className="brutal-border bg-card p-2 brutal-shadow-sm -rotate-2 translate-y-8">
-                <Poster movie={featured[1]} className="w-full border-0 shadow-none" />
-              </div>
-            </div>
-          </motion.div>
         </div>
+
+        {/* poster collage */}
+        <motion.div 
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="relative h-[400px] lg:h-auto w-full bg-accent p-8 overflow-hidden flex items-center justify-center"
+        >
+          <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "linear-gradient(45deg, var(--foreground) 1px, transparent 1px), linear-gradient(-45deg, var(--foreground) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+          
+          <div className="relative z-10 w-full max-w-lg h-[400px]">
+            {/* Overlapping Stack of Real Movies - Scaled for better fit */}
+            <motion.div 
+              animate={{ y: [0, -10, 0], rotate: [-6, -4, -6] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-10 left-0 w-[180px] brutal-border bg-card p-1.5 brutal-shadow-sm hover:z-50 transition-all hover:scale-105"
+            >
+              <Poster movie={MOVIES[12]} className="w-full border-0 shadow-none" />
+            </motion.div>
+
+            <motion.div 
+              animate={{ y: [0, 10, 0], rotate: [4, 6, 4] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="absolute top-20 right-0 w-[180px] brutal-border bg-card p-1.5 brutal-shadow hover:z-50 transition-all hover:scale-105"
+            >
+              <Poster movie={MOVIES[0]} className="w-full border-0 shadow-none" />
+            </motion.div>
+
+            <motion.div 
+              animate={{ y: [0, -15, 0], rotate: [-2, 0, -2] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[200px] brutal-border bg-card p-1.5 brutal-shadow-lg hover:z-50 transition-all hover:scale-110 z-20"
+            >
+              <Poster movie={MOVIES[4]} className="w-full border-0 shadow-none" />
+            </motion.div>
+          </div>
+        </motion.div>
       </section>
 
       {/* Descriptive Analysis Sections */}
@@ -96,53 +113,53 @@ export default function HomePage() {
         {/* The Problem */}
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
-            <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter leading-none">
+            <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tighter leading-none">
               THE <span className="text-destructive">FRICTION</span> OF CHOICE
             </h2>
-            <div className="brutal-border bg-card p-8 brutal-shadow space-y-6">
+            <div className="brutal-border bg-card p-8 brutal-shadow">
               <p className="text-xl font-bold leading-tight">
-                Traditional movie nights are plagued by decision paralysis. Individual preferences clash, dominant voices override the quiet ones, and hours are wasted scrolling through endless thumbnails.
+                Movie night usually ends in the &quot;Netflix Scroll&quot; — forty minutes of indecision followed by giving up. The problem isn't lack of choice; it's the social pressure of picking for the group.
               </p>
-              <ul className="space-y-3 font-pixel text-lg uppercase font-black">
-                <li className="flex items-center gap-3"><X className="text-destructive h-5 w-5" /> The Infinite Scroll Trap</li>
-                <li className="flex items-center gap-3"><X className="text-destructive h-5 w-5" /> Social Pressure to Conform</li>
-                <li className="flex items-center gap-3"><X className="text-destructive h-5 w-5" /> Repetitive Arguments</li>
-              </ul>
             </div>
+            <ul className="space-y-3 font-pixel text-lg uppercase font-black">
+              <li className="flex items-center gap-3"><X className="text-destructive h-5 w-5" /> The loudest person picks</li>
+              <li className="flex items-center gap-3"><X className="text-destructive h-5 w-5" /> Someone hates the choice</li>
+              <li className="flex items-center gap-3"><X className="text-destructive h-5 w-5" /> Rotation fatigue</li>
+            </ul>
           </div>
-          <div className="brutal-border bg-secondary p-12 brutal-shadow rotate-1 flex items-center justify-center">
+          <div className="brutal-border bg-secondary p-12 brutal-shadow flex items-center justify-center min-h-[300px]">
             <div className="text-center">
-              <div className="text-8xl font-black text-secondary-foreground mb-4">45%</div>
-              <p className="font-pixel text-xl uppercase font-black">Average time spent <br/> just choosing the movie</p>
+              <span className="font-pixel text-6xl opacity-20 block mb-4">???</span>
+              <p className="font-black text-2xl uppercase tracking-tighter">Decision Fatigue</p>
             </div>
           </div>
         </div>
 
         {/* The Solution */}
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="order-2 lg:order-1 brutal-border bg-primary p-12 brutal-shadow -rotate-1 flex items-center justify-center">
+          <div className="order-2 lg:order-1 brutal-border bg-primary p-12 brutal-shadow flex items-center justify-center min-h-[300px]">
             <div className="text-center text-primary-foreground">
-              <Sparkles className="h-20 w-20 mx-auto mb-6" />
-              <div className="text-4xl font-black uppercase tracking-tighter">WEIGHTED <br/> CONSENSUS</div>
+              <Vote className="h-20 w-20 mx-auto mb-4" />
+              <p className="font-black text-3xl uppercase tracking-tighter">Automated Consensus</p>
             </div>
           </div>
           <div className="order-1 lg:order-2 space-y-6">
-            <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter leading-none">
+            <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tighter leading-none">
               THE <span className="text-success">QUORUM</span> ENGINE
             </h2>
-            <div className="brutal-border bg-card p-8 brutal-shadow space-y-6">
+            <div className="brutal-border bg-card p-8 brutal-shadow">
               <p className="text-xl font-bold leading-tight">
-                Quorum transforms the group dynamic. By utilizing a shared device or synced session, every participant votes in private. Our engine then computes a weighted result where &quot;Love&quot; carries triple the weight of a &quot;Yes&quot;.
+                Quorum turns group decision-making into a stylized interactive game. Everyone votes privately on their own devices. The system then calculates a weighted result that maximizes group satisfaction while ensuring no one is left behind.
               </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="brutal-border bg-background p-4 text-center">
-                  <div className="text-2xl font-black">+1</div>
-                  <div className="font-pixel text-xs uppercase font-black">Yes</div>
-                </div>
-                <div className="brutal-border bg-primary p-4 text-center text-primary-foreground">
-                  <div className="text-2xl font-black">+3</div>
-                  <div className="font-pixel text-xs uppercase font-black">Love</div>
-                </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="brutal-border bg-background p-4 brutal-shadow-sm">
+                <span className="block font-pixel text-2xl text-primary">+1</span>
+                <span className="font-black text-xs uppercase">Standard Yes</span>
+              </div>
+              <div className="brutal-border bg-background p-4 brutal-shadow-sm">
+                <span className="block font-pixel text-2xl text-secondary">+3</span>
+                <span className="font-black text-xs uppercase">Weighted Love</span>
               </div>
             </div>
           </div>
@@ -150,8 +167,8 @@ export default function HomePage() {
 
         {/* How it works */}
         <div>
-          <div className="mb-16 flex items-end justify-between border-b-4 border-foreground pb-6">
-            <h2 className="font-sans text-5xl sm:text-7xl uppercase tracking-tighter leading-none font-black">
+          <div className="mb-12 flex items-end justify-between border-b-4 border-foreground pb-6">
+            <h2 className="font-sans text-5xl sm:text-6xl uppercase tracking-tighter leading-none font-black">
               CORE FEATURES
             </h2>
             <span className="hidden font-pixel text-2xl uppercase tracking-widest text-primary font-bold sm:block">
@@ -159,7 +176,7 @@ export default function HomePage() {
             </span>
           </div>
 
-          <ol className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <Step
               n="01"
               icon={<Film className="h-8 w-8" />}
