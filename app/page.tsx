@@ -36,7 +36,7 @@ export default function HomePage() {
       {/* hero */}
       <section className="relative z-10 mx-auto grid w-full max-w-6xl gap-0 lg:grid-cols-2">
         {/* left content */}
-        <div className="flex flex-col justify-center bg-background px-5 py-12 sm:px-10 lg:py-24 border-b-4 lg:border-b-0 lg:border-r-4 border-foreground">
+        <div className="flex flex-col justify-center bg-background px-5 py-12 sm:px-10 lg:py-24">
           <motion.div
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -230,7 +230,7 @@ function AutoRollingPosterCollage() {
     const pickIds = ["m01", "m02", "m03", "m04", "m05"]
     const picks = pickIds
       .map((id) => MOVIES.find((movie) => movie.id === id))
-      .filter(Boolean)
+      .filter((movie): movie is (typeof MOVIES)[number] => Boolean(movie))
     return picks.length === 5 ? picks : MOVIES.slice(0, 5)
   }, [])
 

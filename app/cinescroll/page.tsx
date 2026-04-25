@@ -65,15 +65,7 @@ export default function ReelsPage() {
           <ArrowLeft className="h-5 w-5" />
         </Link>
 
-<<<<<<< HEAD:app/reels/page.tsx
         <div className="flex rounded-full border border-border/60 bg-background/40 p-1 backdrop-blur">
-=======
-        <div
-          role="tablist"
-          aria-label="Reel feed"
-          className="flex brutal-border bg-card p-1 brutal-shadow-sm"
-        >
->>>>>>> 1f90985417a6d1ed4eb1221d08892b6969245f7a:app/cinescroll/page.tsx
           {(
             [
               { id: "for-you", label: "For You" },
