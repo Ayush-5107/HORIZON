@@ -161,7 +161,13 @@ export function useStore<T>(selector: (s: QuorumState) => T): T {
 
 export function recordReel(action: keyof ReelInteractions, movieId: string) {
   const current = memoryState.reels[action]
-  if (current.includes(movieId)) return
+  if (current.includes(movieId)) {
+    // Toggle off if already in the list
+    setState({
+      reels: { ...memoryState.reels, [action]: current.filter(id => id !== movieId) },
+    })
+    return
+  }
   setState({
     reels: { ...memoryState.reels, [action]: [...current, movieId] },
   })

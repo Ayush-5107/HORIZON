@@ -175,7 +175,7 @@ export default function HomePage() {
             <Step
               n="01"
               icon={<Film className="h-8 w-8" />}
-              title="CINEREELS"
+              title="CINESCROLL"
               body="A gesture-driven discovery feed. Save favorites to your private watchlist before the session starts."
               color="bg-secondary"
               delay={0.1}
@@ -237,6 +237,7 @@ function AutoRollingPosterCollage() {
   const loopSlides = useMemo(() => [...posterPool, ...posterPool], [posterPool])
 
   return (
+<<<<<<< HEAD
     <div className="relative flex h-full w-full items-center justify-center p-4 sm:p-6">
       <div className="relative h-full w-full max-w-[420px] sm:max-w-[480px] overflow-hidden brutal-border bg-foreground brutal-shadow-lg">
         <motion.div
@@ -262,6 +263,100 @@ function AutoRollingPosterCollage() {
                 alt={movie.title}
                 className="relative z-10 h-full w-full object-contain"
                 draggable={false}
+=======
+    <div className="relative z-10 h-[400px] w-full max-w-xl [perspective:1500px]">
+      <div className="absolute left-0 top-1 z-40 flex w-[340px] items-center gap-2 brutal-border bg-foreground px-4 py-1.5 font-pixel text-xs font-black uppercase tracking-[0.2em] text-background">
+        <span>AUTO ROLLING CINESCROLL</span>
+        <span className="h-2 w-2 bg-primary" />
+        <span>LIVE SWAP // 3D MODE</span>
+      </div>
+
+      <div className="absolute inset-0 top-10 [transform-style:preserve-3d]">
+        <AnimatePresence initial={false}>
+          {visible.map((item) => {
+            const depth = Math.abs(item.diff)
+            const x = item.diff * 118
+            const z = -depth * 180
+            const rotateY = item.diff * -30
+            const scale = 1 - depth * 0.16
+            const y = 26 + depth * 10
+            const opacity = 1 - depth * 0.2
+            const blur = depth * 1.6
+
+            return (
+              <motion.div
+                key={`${item.movie.id}-${cycle}`}
+                initial={{ opacity: 0, x: x * 1.2, z: z - 80, rotateY: rotateY * 1.4, y: y + 18, scale: scale * 0.9 }}
+                animate={{ opacity, x, z, rotateY, y, scale, filter: `blur(${blur}px)` }}
+                exit={{ opacity: 0, x: x * 0.82, z: z - 40, rotateY: rotateY * 0.6, scale: scale * 0.92 }}
+                transition={{ type: "spring", stiffness: 120, damping: 18, mass: 0.8 }}
+                className="absolute left-1/2 top-1/2 w-[180px] -translate-x-1/2 -translate-y-1/2 sm:w-[210px]"
+                style={{ zIndex: 100 - depth * 10 }}
+              >
+                <motion.div
+                  animate={{ y: [0, -10, 0], rotateZ: [0, item.diff * 1.6, 0] }}
+                  transition={{ duration: 3.7 + depth * 0.65, repeat: Infinity, ease: "easeInOut" }}
+                  className="brutal-border bg-card p-1.5 brutal-shadow-lg"
+                >
+                  <Poster
+                    movie={item.movie}
+                    fit="contain"
+                    showMeta={false}
+                    className="aspect-[2/3] w-full border-0 shadow-none bg-foreground"
+                  />
+                </motion.div>
+              </motion.div>
+            )
+          })}
+        </AnimatePresence>
+      </div>
+
+      <AnimatePresence>
+        {flashBurst > 0 && (
+          <motion.div
+            key={`flash-${flashBurst}`}
+            initial={{ opacity: 0.55 }}
+            animate={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.24, ease: "easeOut" }}
+            className="pointer-events-none absolute inset-0 z-50 bg-background"
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {glitchBurst > 0 && (
+          <motion.div
+            key={`glitch-${glitchBurst}`}
+            initial={{ opacity: 0.9, x: -14 }}
+            animate={{ opacity: [0.95, 0.35, 0], x: [14, -10, 0] }}
+            transition={{ duration: 0.32, ease: "easeOut" }}
+            className="pointer-events-none absolute inset-0 z-50"
+          >
+            <div className="absolute inset-x-0 top-20 h-8 bg-primary/70 mix-blend-multiply" />
+            <div className="absolute inset-x-0 top-40 h-10 bg-secondary/70 mix-blend-multiply" />
+            <div className="absolute inset-x-0 top-60 h-6 bg-destructive/65 mix-blend-multiply" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {featuredMovieId && centerMovie?.id === featuredMovieId && (
+          <motion.div
+            key={`featured-${featuredSpinKey}-${centerMovie.id}`}
+            initial={{ opacity: 0, scale: 0.45, rotateY: -190, rotateZ: -20, y: 80 }}
+            animate={{ opacity: [0, 1, 0], scale: [0.45, 1.12, 1.04], rotateY: [-190, 0, 0], rotateZ: [-20, 5, 0], y: [80, 0, 0] }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.08, ease: "easeOut" }}
+            className="pointer-events-none absolute left-1/2 top-[56%] z-[60] w-[215px] -translate-x-1/2 -translate-y-1/2 sm:w-[245px]"
+          >
+            <div className="brutal-border bg-primary p-1.5 brutal-shadow-lg">
+              <Poster
+                movie={centerMovie}
+                fit="contain"
+                showMeta={false}
+                className="aspect-[2/3] w-full border-0 shadow-none bg-foreground"
+>>>>>>> 1f90985417a6d1ed4eb1221d08892b6969245f7a
               />
             </div>
           ))}

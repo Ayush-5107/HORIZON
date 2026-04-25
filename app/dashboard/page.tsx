@@ -67,9 +67,9 @@ export default function DashboardPage() {
         </div>
 
         <nav className="hidden md:flex items-center gap-6">
-          <button onClick={() => router.push("/reels")} className="font-pixel text-lg font-black uppercase hover:text-primary transition-colors flex items-center gap-2">
+          <button onClick={() => router.push("/cinescroll")} className="font-pixel text-lg font-black uppercase hover:text-primary transition-colors flex items-center gap-2">
             <Play className="h-5 w-5" />
-            Reels
+            Cinescroll
           </button>
           <button onClick={() => router.push("/session")} className="font-pixel text-lg font-black uppercase hover:text-primary transition-colors flex items-center gap-2">
             <Users className="h-5 w-5" />
@@ -156,7 +156,7 @@ export default function DashboardPage() {
             {/* Feature Hub / Quick Actions */}
             <section className="grid gap-6 xl:grid-cols-2">
               <Link
-                href="/reels"
+                href="/cinescroll"
                 className="group relative overflow-hidden brutal-border bg-accent p-8 brutal-shadow transition-all hover:translate-y-[-4px] hover:brutal-shadow-lg"
               >
                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
@@ -165,7 +165,7 @@ export default function DashboardPage() {
                 <h3 className="text-3xl font-black uppercase tracking-tighter mb-2">Discovery Feed</h3>
                 <p className="font-bold opacity-70 mb-6">Swipe through 100+ titles and build your personal interest profile.</p>
                 <div className="inline-flex items-center gap-2 bg-foreground text-background px-4 py-2 font-pixel text-sm uppercase font-black">
-                  Launch CineReels <ArrowRight className="h-4 w-4" />
+                  Launch Cinescroll <ArrowRight className="h-4 w-4" />
                 </div>
               </Link>
 
@@ -252,7 +252,7 @@ export default function DashboardPage() {
                         <p className="font-pixel text-[10px] font-black uppercase opacity-60 mb-4">{m.genre} · {m.year}</p>
                         <div className="flex gap-3">
                           <button 
-                            onClick={() => router.push(`/reels?id=${m.id}`)}
+                            onClick={() => router.push(`/cinescroll?id=${m.id}`)}
                             className="flex-1 brutal-border bg-secondary py-2 text-sm font-black uppercase flex items-center justify-center gap-2 brutal-shadow-sm hover:translate-y-[-1px] transition-transform"
                           >
                             <Play className="h-4 w-4" />
@@ -332,7 +332,7 @@ export default function DashboardPage() {
 
       {/* Mobile Tab Bar (Bottom Nav Style) - Only on small screens */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 brutal-border bg-card p-4 border-x-0 border-b-0 flex items-center justify-around brutal-shadow-[0_-8px_0_rgba(0,0,0,1)]">
-        <NavItem icon={<Play />} label="Reels" onClick={() => router.push("/reels")} />
+        <NavItem icon={<Play />} label="Cinescroll" onClick={() => router.push("/cinescroll")} />
         <NavItem icon={<Users />} label="Session" onClick={() => router.push("/session")} />
         <NavItem icon={<Bookmark />} label="Watch" active />
         <NavItem icon={<Settings />} label="Config" />

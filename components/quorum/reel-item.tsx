@@ -32,48 +32,54 @@ export function ReelItem({ movie, onOpenReviews }: Props) {
   const [shared, setShared] = useState(false)
 
   return (
-    <article className="relative h-[100svh] w-full snap-start snap-always">
-      {/* poster fills */}
-      <div className="absolute inset-0">
+    <article className="relative h-[100svh] w-full snap-start snap-always md:flex md:items-center md:justify-center md:gap-8 xl:gap-16">
+      {/* Mobile background poster */}
+      <div className="absolute inset-0 md:hidden">
         <Poster movie={movie} className="h-full w-full rounded-none" />
       </div>
 
-      {/* content overlay */}
-      <div className="relative z-10 flex h-full w-full">
+      {/* Main Wrapper */}
+      <div className="relative z-10 flex h-full w-full pointer-events-none md:static md:w-auto md:max-w-6xl md:items-center md:justify-center md:gap-8 xl:gap-16">
+        
         {/* left: meta */}
-        <div className="flex flex-1 flex-col justify-end px-5 pb-28 pt-24 sm:px-10 sm:pb-16">
+        <div className="flex flex-1 flex-col justify-end px-5 pb-28 pt-24 sm:px-10 sm:pb-16 pointer-events-auto md:h-auto md:w-[320px] md:flex-none md:justify-center md:p-0">
           <div className="max-w-xl">
             <div className="flex flex-wrap items-center gap-2">
               <GenreTag genre={movie.genre} />
-              <span className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/40 px-2.5 py-0.5 text-xs text-foreground/90 backdrop-blur">
+              <span className="inline-flex items-center gap-1 brutal-border bg-background px-3 py-1 font-pixel text-[10px] font-black uppercase text-foreground brutal-shadow-sm">
                 <Star className="h-3 w-3 fill-primary text-primary" />
                 {movie.rating.toFixed(1)}
               </span>
-              <span className="rounded-full border border-border/60 bg-background/40 px-2.5 py-0.5 text-xs text-foreground/90 backdrop-blur">
+              <span className="brutal-border bg-background px-3 py-1 font-pixel text-[10px] font-black uppercase text-foreground brutal-shadow-sm">
                 {formatRuntime(movie.runtime)}
               </span>
-              <span className="rounded-full border border-border/60 bg-background/40 px-2.5 py-0.5 text-xs text-foreground/90 backdrop-blur">
+              <span className="brutal-border bg-background px-3 py-1 font-pixel text-[10px] font-black uppercase text-foreground brutal-shadow-sm">
                 {movie.year}
               </span>
             </div>
 
-            <h2 className="mt-4 text-balance font-serif text-4xl leading-[1.05] tracking-tight sm:text-5xl">
+            <h2 className="mt-4 text-balance font-sans text-5xl font-black uppercase tracking-tighter leading-none sm:text-6xl text-background drop-shadow-md md:text-foreground md:drop-shadow-none">
               {movie.title}
             </h2>
 
-            <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-foreground/85 sm:text-base">
+            <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-background font-bold drop-shadow-md sm:text-base border-l-4 border-primary pl-4 md:text-foreground md:drop-shadow-none md:border-foreground">
               {movie.synopsis}
             </p>
 
-            <p className="mt-4 text-xs text-muted-foreground">
+            <p className="mt-4 font-pixel text-[10px] font-black uppercase text-background drop-shadow-md md:text-foreground md:drop-shadow-none">
               <span className="text-primary">{formatCount(movie.socialProof)}</span> people liked this
               {movie.director ? <> · dir. {movie.director}</> : null}
             </p>
           </div>
         </div>
 
+        {/* center: desktop poster */}
+        <div className="hidden md:block relative h-[80svh] lg:h-[85svh] aspect-[9/16] shrink-0 pointer-events-auto transition-transform hover:-translate-y-2 group">
+          <Poster movie={movie} showMeta={false} className="h-full w-full brutal-shadow-xl" />
+        </div>
+
         {/* right: action rail */}
-        <div className="flex w-16 flex-col items-center justify-end gap-5 pb-28 pr-3 sm:w-20 sm:pb-16 sm:pr-6">
+        <div className="flex w-16 flex-col items-center justify-end gap-5 pb-28 pr-3 sm:w-20 sm:pb-16 sm:pr-6 pointer-events-auto md:h-auto md:w-24 md:items-start md:justify-center md:p-0 md:gap-6">
           <ActionButton
             label="Like"
             active={liked}
@@ -138,14 +144,16 @@ function ActionButton({
     >
       <span
         className={cn(
-          "flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-background/40 text-foreground backdrop-blur transition active:scale-95",
-          active && activeClass,
-          active && "border-current/40",
+          "flex h-12 w-12 items-center justify-center brutal-border transition-all active:translate-y-1 hover:-translate-y-1 hover:brutal-shadow brutal-shadow-sm",
+          active ? `bg-foreground text-background` : "bg-card text-foreground"
         )}
       >
         {children}
       </span>
-      <span className="text-[10px] font-medium uppercase tracking-wider text-foreground/80">
+      <span className={cn(
+        "font-pixel text-[10px] font-black uppercase tracking-widest",
+        active ? activeClass : "text-foreground drop-shadow-md"
+      )}>
         {label}
       </span>
     </button>

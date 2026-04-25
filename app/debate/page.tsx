@@ -107,11 +107,11 @@ export default function DebatePage() {
         {/* left: tied movies */}
         <aside className="space-y-8">
           <div>
-            <h2 className="font-sans text-4xl font-black uppercase tracking-tighter leading-none mb-4">
-              The <br/> <span className="text-primary">Standoff</span>
+            <h2 className="font-sans text-5xl font-black uppercase tracking-tighter leading-none mb-3">
+              THE <span className="bg-primary text-primary-foreground px-2 py-1 inline-block transform -rotate-2 border-2 border-foreground brutal-shadow-sm">STANDOFF</span>
             </h2>
-            <p className="text-lg font-bold opacity-70 leading-tight">
-              THE ROOM IS TIED. DEBATE OR START THE FINAL RE-POLL.
+            <p className="font-pixel text-[10px] font-black uppercase tracking-widest bg-foreground text-background inline-block px-3 py-1.5 brutal-shadow-sm">
+              THE ROOM IS TIED. DEBATE OR RE-POLL.
             </p>
           </div>
           
@@ -124,8 +124,8 @@ export default function DebatePage() {
                 key={m.id}
                 className="group flex items-center gap-4 brutal-border bg-card p-4 brutal-shadow transition-all hover:-translate-y-1"
               >
-                <div className="h-24 w-16 shrink-0 overflow-hidden brutal-border brutal-shadow-sm">
-                  <Poster movie={m} className="h-full w-full" />
+                <div className="h-28 w-20 shrink-0 overflow-hidden brutal-border brutal-shadow-sm">
+                  <Poster movie={m} className="h-full w-full object-cover" showMeta={false} />
                 </div>
                 <div className="min-w-0">
                   <p className="truncate font-sans text-xl font-black uppercase tracking-tight">{m.title}</p>
@@ -142,10 +142,12 @@ export default function DebatePage() {
 
           <button
             onClick={startRepoll}
-            className="group mt-8 inline-flex w-full items-center justify-center gap-3 brutal-border bg-primary px-6 py-4 text-xl font-black uppercase text-primary-foreground transition-all hover:-translate-y-1 brutal-shadow hover:brutal-shadow-lg"
+            className="group mt-8 flex w-full items-center justify-between brutal-border bg-primary px-8 py-6 text-2xl font-black uppercase text-primary-foreground transition-all hover:-translate-y-1 brutal-shadow hover:brutal-shadow-lg"
           >
-            Final Re-poll
-            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
+            <span>Final Re-poll</span>
+            <span className="flex h-12 w-12 items-center justify-center brutal-border bg-foreground text-background transition-transform group-hover:translate-x-2">
+              <ArrowRight className="h-6 w-6" />
+            </span>
           </button>
         </aside>
 
@@ -181,9 +183,11 @@ export default function DebatePage() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="grid h-full place-items-center text-center p-10"
                 >
-                  <div className="brutal-border bg-background p-12 brutal-shadow transform -rotate-1">
-                    <p className="font-sans text-5xl font-black uppercase leading-none tracking-tighter">Silence in the court.</p>
-                    <p className="mt-6 max-w-sm mx-auto text-xl font-bold opacity-60">
+                  <div className="brutal-border bg-background p-12 brutal-shadow-lg transform -rotate-2 transition-transform hover:rotate-0">
+                    <p className="font-sans text-6xl font-black uppercase leading-none tracking-tighter bg-foreground text-background inline-block px-4 py-2">
+                      Silence in the court.
+                    </p>
+                    <p className="mt-8 text-2xl font-bold leading-tight border-l-8 border-primary pl-6">
                       Make a case for your pick. Stay anonymous — only participant IDs are shown.
                     </p>
                   </div>
@@ -265,7 +269,7 @@ export default function DebatePage() {
                   }
                 }}
                 placeholder={`DROP YOUR CASE AS P${activeParticipant + 1}…`}
-                className="flex-1 bg-transparent py-4 text-2xl font-black outline-none uppercase placeholder:text-muted-foreground/30 tracking-tight"
+                className="flex-1 bg-transparent py-4 text-2xl font-black outline-none uppercase placeholder:text-muted-foreground/60 tracking-tight text-foreground"
                 aria-label="Chat message"
               />
               <button
