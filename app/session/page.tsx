@@ -350,7 +350,7 @@ export default function SessionPage() {
                           className="inline-flex items-center gap-3 brutal-border bg-background px-4 py-2.5 font-black text-sm uppercase brutal-shadow-sm transition-transform hover:-translate-y-1 hover:bg-secondary"
                         >
                           <GenreTag genre={m.genre} className="!border-transparent !bg-transparent !px-0 !py-0" />
-                          <span>{m.title}</span>
+                          <span>{poolFilter === "auto" ? "???" : m.title}</span>
                         </span>
                       )
                     })}
