@@ -25,10 +25,13 @@ export default function RevealPage() {
   const transitionTriggered = useRef(false)
 
   useEffect(() => {
-    if (phase !== "reveal" && phase !== "repoll" && phase !== "debate") {
+    // Only redirect if there's genuinely no session. Don't redirect when
+    // phase has transitioned to "results" or "debate" — that's expected
+    // and the navigation to those pages is already in flight.
+    if (phase === "idle" && moviePool.length === 0) {
       router.replace("/")
     }
-  }, [phase, router])
+  }, [phase, moviePool.length, router])
 
   useEffect(() => {
     if (count <= 0) {
