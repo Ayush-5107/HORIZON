@@ -1,15 +1,14 @@
 "use client"
 
 import Link from "next/link"
+import { useEffect, useMemo, useState } from "react"
 import { ArrowRight, Film, Sparkles, Users, Vote, X, History } from "lucide-react"
 import { BrandMark } from "@/components/quorum/brand-mark"
 import { MOVIES } from "@/lib/movies"
 import { Poster } from "@/components/quorum/poster"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 
 export default function HomePage() {
-  const featured = [MOVIES[6], MOVIES[4], MOVIES[0]]
-
   return (
     <main className="relative min-h-dvh overflow-hidden bg-background">
       <div className="grain absolute inset-0" aria-hidden />
@@ -76,34 +75,9 @@ export default function HomePage() {
           transition={{ delay: 0.2 }}
           className="relative h-[400px] lg:h-auto w-full bg-accent p-8 overflow-hidden flex items-center justify-center"
         >
-          <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "linear-gradient(45deg, var(--foreground) 1px, transparent 1px), linear-gradient(-45deg, var(--foreground) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-          
-          <div className="relative z-10 w-full max-w-lg h-[400px]">
-            {/* Overlapping Stack of Real Movies - Scaled for better fit */}
-            <motion.div 
-              animate={{ y: [0, -10, 0], rotate: [-6, -4, -6] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-10 left-0 w-[180px] brutal-border bg-card p-1.5 brutal-shadow-sm hover:z-50 transition-all hover:scale-105"
-            >
-              <Poster movie={MOVIES[12]} className="w-full border-0 shadow-none" />
-            </motion.div>
+          <div className="hero-grid absolute inset-0 opacity-20 pointer-events-none" />
 
-            <motion.div 
-              animate={{ y: [0, 10, 0], rotate: [4, 6, 4] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-              className="absolute top-20 right-0 w-[180px] brutal-border bg-card p-1.5 brutal-shadow hover:z-50 transition-all hover:scale-105"
-            >
-              <Poster movie={MOVIES[0]} className="w-full border-0 shadow-none" />
-            </motion.div>
-
-            <motion.div 
-              animate={{ y: [0, -15, 0], rotate: [-2, 0, -2] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[200px] brutal-border bg-card p-1.5 brutal-shadow-lg hover:z-50 transition-all hover:scale-110 z-20"
-            >
-              <Poster movie={MOVIES[4]} className="w-full border-0 shadow-none" />
-            </motion.div>
-          </div>
+          <AutoRollingPosterCollage />
         </motion.div>
       </section>
 
@@ -127,10 +101,34 @@ export default function HomePage() {
               <li className="flex items-center gap-3"><X className="text-destructive h-5 w-5" /> Rotation fatigue</li>
             </ul>
           </div>
-          <div className="brutal-border bg-secondary p-12 brutal-shadow flex items-center justify-center min-h-[300px]">
-            <div className="text-center">
-              <span className="font-pixel text-6xl opacity-20 block mb-4">???</span>
-              <p className="font-black text-2xl uppercase tracking-tighter">Decision Fatigue</p>
+          <div className="brutal-border bg-secondary p-8 brutal-shadow flex items-center justify-center min-h-[300px]">
+            <div className="w-full max-w-sm">
+              <svg
+                viewBox="0 0 320 220"
+                role="img"
+                aria-label="Chaotic decision map"
+                className="h-auto w-full brutal-border bg-background p-3 brutal-shadow-sm"
+              >
+                <rect x="10" y="10" width="80" height="30" fill="var(--primary)" stroke="var(--foreground)" strokeWidth="4" />
+                <rect x="120" y="22" width="82" height="30" fill="var(--accent)" stroke="var(--foreground)" strokeWidth="4" />
+                <rect x="228" y="10" width="82" height="30" fill="var(--destructive)" stroke="var(--foreground)" strokeWidth="4" />
+
+                <path d="M50 45 L75 95" stroke="var(--foreground)" strokeWidth="4" />
+                <path d="M162 54 L142 104" stroke="var(--foreground)" strokeWidth="4" />
+                <path d="M268 44 L218 104" stroke="var(--foreground)" strokeWidth="4" />
+
+                <circle cx="82" cy="110" r="20" fill="var(--secondary)" stroke="var(--foreground)" strokeWidth="4" />
+                <circle cx="156" cy="116" r="20" fill="var(--warning)" stroke="var(--foreground)" strokeWidth="4" />
+                <circle cx="224" cy="112" r="20" fill="var(--success)" stroke="var(--foreground)" strokeWidth="4" />
+
+                <path d="M82 130 L158 165" stroke="var(--foreground)" strokeWidth="4" />
+                <path d="M156 136 L158 165" stroke="var(--foreground)" strokeWidth="4" />
+                <path d="M224 132 L158 165" stroke="var(--foreground)" strokeWidth="4" />
+
+                <polygon points="158,190 180,165 158,142 136,165" fill="var(--foreground)" />
+                <text x="158" y="171" textAnchor="middle" fill="var(--background)" fontFamily="var(--font-pixel)" fontSize="20" fontWeight="700">?</text>
+              </svg>
+              <p className="mt-5 text-center font-black text-2xl uppercase tracking-tighter">Decision Fatigue</p>
             </div>
           </div>
         </div>
@@ -228,6 +226,165 @@ export default function HomePage() {
       </footer>
     </main>
   )
+}
+
+function AutoRollingPosterCollage() {
+  const posterPool = useMemo(() => {
+    const picks = [12, 0, 4, 6, 9, 2, 14].map((idx) => MOVIES[idx]).filter(Boolean)
+    return picks.length >= 4 ? picks : MOVIES
+  }, [])
+  const featuredIds = useMemo(() => new Set([MOVIES[0]?.id, MOVIES[4]?.id, MOVIES[12]?.id]), [])
+
+  const [lead, setLead] = useState(0)
+  const [cycle, setCycle] = useState(0)
+  const [glitchBurst, setGlitchBurst] = useState(0)
+  const [flashBurst, setFlashBurst] = useState(0)
+  const [featuredSpinKey, setFeaturedSpinKey] = useState(0)
+  const [featuredMovieId, setFeaturedMovieId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (posterPool.length < 2) return
+    const id = window.setInterval(() => {
+      setLead((v) => {
+        const next = (v + 1) % posterPool.length
+        setCycle((c) => {
+          const nextCycle = c + 1
+          setGlitchBurst(nextCycle)
+          setFlashBurst(nextCycle)
+
+          if (nextCycle % 4 === 0) {
+            const nextMovie = posterPool[next]
+            if (nextMovie && featuredIds.has(nextMovie.id)) {
+              setFeaturedMovieId(nextMovie.id)
+              setFeaturedSpinKey(nextCycle)
+            }
+          }
+
+          return nextCycle
+        })
+        return next
+      })
+    }, 1950)
+    return () => window.clearInterval(id)
+  }, [featuredIds, posterPool])
+
+  const visible = useMemo(() => {
+    return posterPool
+      .map((movie, idx) => ({ movie, idx, diff: circularDiff(idx, lead, posterPool.length) }))
+      .filter((item) => Math.abs(item.diff) <= 2)
+      .sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))
+  }, [lead, posterPool])
+
+  const centerMovie = posterPool[lead]
+
+  return (
+    <div className="relative z-10 h-[400px] w-full max-w-xl [perspective:1500px]">
+      <div className="absolute left-0 top-1 z-40 flex w-[340px] items-center gap-2 brutal-border bg-foreground px-4 py-1.5 font-pixel text-xs font-black uppercase tracking-[0.2em] text-background">
+        <span>AUTO ROLLING REELS</span>
+        <span className="h-2 w-2 bg-primary" />
+        <span>LIVE SWAP // 3D MODE</span>
+      </div>
+
+      <div className="absolute inset-0 top-10 [transform-style:preserve-3d]">
+        <AnimatePresence initial={false}>
+          {visible.map((item) => {
+            const depth = Math.abs(item.diff)
+            const x = item.diff * 118
+            const z = -depth * 180
+            const rotateY = item.diff * -30
+            const scale = 1 - depth * 0.16
+            const y = 26 + depth * 10
+            const opacity = 1 - depth * 0.2
+            const blur = depth * 1.6
+
+            return (
+              <motion.div
+                key={`${item.movie.id}-${cycle}`}
+                initial={{ opacity: 0, x: x * 1.2, z: z - 80, rotateY: rotateY * 1.4, y: y + 18, scale: scale * 0.9 }}
+                animate={{ opacity, x, z, rotateY, y, scale, filter: `blur(${blur}px)` }}
+                exit={{ opacity: 0, x: x * 0.82, z: z - 40, rotateY: rotateY * 0.6, scale: scale * 0.92 }}
+                transition={{ type: "spring", stiffness: 120, damping: 18, mass: 0.8 }}
+                className="absolute left-1/2 top-1/2 w-[180px] -translate-x-1/2 -translate-y-1/2 sm:w-[210px]"
+                style={{ zIndex: 100 - depth * 10 }}
+              >
+                <motion.div
+                  animate={{ y: [0, -10, 0], rotateZ: [0, item.diff * 1.6, 0] }}
+                  transition={{ duration: 3.7 + depth * 0.65, repeat: Infinity, ease: "easeInOut" }}
+                  className="brutal-border bg-card p-1.5 brutal-shadow-lg"
+                >
+                  <Poster
+                    movie={item.movie}
+                    fit="contain"
+                    showMeta={false}
+                    className="aspect-[2/3] w-full border-0 shadow-none bg-foreground"
+                  />
+                </motion.div>
+              </motion.div>
+            )
+          })}
+        </AnimatePresence>
+      </div>
+
+      <AnimatePresence>
+        {flashBurst > 0 && (
+          <motion.div
+            key={`flash-${flashBurst}`}
+            initial={{ opacity: 0.55 }}
+            animate={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.24, ease: "easeOut" }}
+            className="pointer-events-none absolute inset-0 z-50 bg-background"
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {glitchBurst > 0 && (
+          <motion.div
+            key={`glitch-${glitchBurst}`}
+            initial={{ opacity: 0.9, x: -14 }}
+            animate={{ opacity: [0.95, 0.35, 0], x: [14, -10, 0] }}
+            transition={{ duration: 0.32, ease: "easeOut" }}
+            className="pointer-events-none absolute inset-0 z-50"
+          >
+            <div className="absolute inset-x-0 top-20 h-8 bg-primary/70 mix-blend-multiply" />
+            <div className="absolute inset-x-0 top-40 h-10 bg-secondary/70 mix-blend-multiply" />
+            <div className="absolute inset-x-0 top-60 h-6 bg-destructive/65 mix-blend-multiply" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {featuredMovieId && centerMovie?.id === featuredMovieId && (
+          <motion.div
+            key={`featured-${featuredSpinKey}-${centerMovie.id}`}
+            initial={{ opacity: 0, scale: 0.45, rotateY: -190, rotateZ: -20, y: 80 }}
+            animate={{ opacity: [0, 1, 0], scale: [0.45, 1.12, 1.04], rotateY: [-190, 0, 0], rotateZ: [-20, 5, 0], y: [80, 0, 0] }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.08, ease: "easeOut" }}
+            className="pointer-events-none absolute left-1/2 top-[56%] z-[60] w-[215px] -translate-x-1/2 -translate-y-1/2 sm:w-[245px]"
+          >
+            <div className="brutal-border bg-primary p-1.5 brutal-shadow-lg">
+              <Poster
+                movie={centerMovie}
+                fit="contain"
+                showMeta={false}
+                className="aspect-[2/3] w-full border-0 shadow-none bg-foreground"
+              />
+            </div>
+            <div className="absolute -left-2 -top-2 brutal-border bg-foreground px-2 py-1 font-pixel text-[10px] font-black uppercase tracking-widest text-background">
+              FEATURED
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+function circularDiff(index: number, lead: number, length: number) {
+  const raw = (index - lead + length) % length
+  return raw > length / 2 ? raw - length : raw
 }
 
 function Step({
