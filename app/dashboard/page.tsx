@@ -31,14 +31,21 @@ export default function DashboardPage() {
   const router = useRouter()
   const user = useStore((s) => s.user)
   const [activeTab, setActiveTab] = useState<"watchlist" | "history">("watchlist")
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    if (!user) {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (mounted && !user) {
       router.replace("/login")
     }
-  }, [user, router])
+  }, [user, router, mounted])
 
-  if (!user) return null
+  // Prevent hydration mismatch: user comes from sessionStorage which
+  // doesn't exist on the server. Only render user-dependent UI after mount.
+  if (!mounted || !user) return null
 
   const watchlistMovies = user.watchlist.map(id => getMovieById(id)).filter(Boolean) as any[]
   const displayMovies = watchlistMovies.length > 0 ? watchlistMovies : MOVIES.slice(0, 4)
