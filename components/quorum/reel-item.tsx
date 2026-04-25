@@ -32,16 +32,17 @@ export function ReelItem({ movie, onOpenReviews }: Props) {
   const [shared, setShared] = useState(false)
 
   return (
-    <article className="relative h-[100svh] w-full snap-start snap-always">
-      {/* poster fills */}
-      <div className="absolute inset-0">
+    <article className="relative h-[100svh] w-full snap-start snap-always md:flex md:items-center md:justify-center md:gap-8 xl:gap-16">
+      {/* Mobile background poster */}
+      <div className="absolute inset-0 md:hidden">
         <Poster movie={movie} className="h-full w-full rounded-none" />
       </div>
 
-      {/* content overlay */}
-      <div className="relative z-10 flex h-full w-full">
+      {/* Main Wrapper */}
+      <div className="relative z-10 flex h-full w-full pointer-events-none md:static md:w-auto md:max-w-6xl md:items-center md:justify-center md:gap-8 xl:gap-16">
+        
         {/* left: meta */}
-        <div className="flex flex-1 flex-col justify-end px-5 pb-28 pt-24 sm:px-10 sm:pb-16">
+        <div className="flex flex-1 flex-col justify-end px-5 pb-28 pt-24 sm:px-10 sm:pb-16 pointer-events-auto md:h-auto md:w-[320px] md:flex-none md:justify-center md:p-0">
           <div className="max-w-xl">
             <div className="flex flex-wrap items-center gap-2">
               <GenreTag genre={movie.genre} />
@@ -57,23 +58,28 @@ export function ReelItem({ movie, onOpenReviews }: Props) {
               </span>
             </div>
 
-            <h2 className="mt-4 text-balance font-sans text-5xl font-black uppercase tracking-tighter leading-none sm:text-6xl text-background drop-shadow-md">
+            <h2 className="mt-4 text-balance font-sans text-5xl font-black uppercase tracking-tighter leading-none sm:text-6xl text-background drop-shadow-md md:text-foreground md:drop-shadow-none">
               {movie.title}
             </h2>
 
-            <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-background font-bold drop-shadow-md sm:text-base border-l-4 border-primary pl-4">
+            <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-background font-bold drop-shadow-md sm:text-base border-l-4 border-primary pl-4 md:text-foreground md:drop-shadow-none md:border-foreground">
               {movie.synopsis}
             </p>
 
-            <p className="mt-4 font-pixel text-[10px] font-black uppercase text-background drop-shadow-md">
+            <p className="mt-4 font-pixel text-[10px] font-black uppercase text-background drop-shadow-md md:text-foreground md:drop-shadow-none">
               <span className="text-primary">{formatCount(movie.socialProof)}</span> people liked this
               {movie.director ? <> · dir. {movie.director}</> : null}
             </p>
           </div>
         </div>
 
+        {/* center: desktop poster */}
+        <div className="hidden md:block relative h-[80svh] lg:h-[85svh] aspect-[9/16] shrink-0 pointer-events-auto transition-transform hover:-translate-y-2 group">
+          <Poster movie={movie} showMeta={false} className="h-full w-full brutal-shadow-xl" />
+        </div>
+
         {/* right: action rail */}
-        <div className="flex w-16 flex-col items-center justify-end gap-5 pb-28 pr-3 sm:w-20 sm:pb-16 sm:pr-6">
+        <div className="flex w-16 flex-col items-center justify-end gap-5 pb-28 pr-3 sm:w-20 sm:pb-16 sm:pr-6 pointer-events-auto md:h-auto md:w-24 md:items-start md:justify-center md:p-0 md:gap-6">
           <ActionButton
             label="Like"
             active={liked}
