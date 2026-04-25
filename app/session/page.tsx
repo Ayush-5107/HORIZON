@@ -33,6 +33,7 @@ export default function SessionPage() {
   const [mode, setMode] = useState<"device" | "qr">("device")
   const [poolFilter, setPoolFilter] = useState<"auto" | "genre">("auto")
   const [selectedGenres, setSelectedGenres] = useState<string[]>([])
+  const [deckSize, setDeckSize] = useState(15)
 
   const cleanedParticipants = participants
     .map((p, i) => p.trim() || `P${i + 1}`)
@@ -55,10 +56,10 @@ export default function SessionPage() {
       if (seen.has(m.id)) continue
       seen.add(m.id)
       ids.push(m.id)
-      if (ids.length >= 15) break
+      if (ids.length >= deckSize) break
     }
     return ids
-  }, [poolFilter, selectedGenres, reelLikes])
+  }, [poolFilter, selectedGenres, reelLikes, deckSize])
 
   function addParticipant() {
     if (participants.length >= 5) return
@@ -86,6 +87,7 @@ export default function SessionPage() {
       leader,
       poolFilter,
       selectedGenres,
+      deckSize,
       moviePool,
     })
     router.push("/vote")
@@ -360,6 +362,35 @@ export default function SessionPage() {
                   )}
                 </div>
               </div>
+
+              {/* Deck Size */}
+              <section className="space-y-4 pt-8">
+                <div className="flex items-center gap-3">
+                  <div className="brutal-border bg-foreground p-1.5 text-background">
+                    <ArrowRight className="h-4 w-4" />
+                  </div>
+                  <h3 className="font-sans text-xl font-black uppercase tracking-tight">Deck Depth</h3>
+                </div>
+                <div className="grid grid-cols-4 gap-4">
+                  {[10, 15, 20, 30].map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setDeckSize(size)}
+                      className={cn(
+                        "brutal-border py-4 font-pixel text-xl font-black transition-all hover:-translate-y-1",
+                        deckSize === size
+                          ? "bg-primary text-primary-foreground brutal-shadow translate-y-0"
+                          : "bg-card text-foreground hover:brutal-shadow-sm"
+                      )}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-xs font-bold opacity-60 uppercase tracking-widest">
+                  HOW MANY FILMS TO VOTE ON BEFORE THE FINAL TALLY.
+                </p>
+              </section>
             </motion.section>
           )}
         </AnimatePresence>

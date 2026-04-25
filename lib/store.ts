@@ -62,7 +62,8 @@ export type QuorumState = {
   mode: SessionMode
   poolFilter: "auto" | "genre"
   selectedGenres: string[]
-  moviePool: string[] // movie ids in deck (15 cards)
+  deckSize: number // default 15, max 40
+  moviePool: string[] // movie ids in deck
 
   // voting state
   currentParticipant: number // 0..n-1
@@ -86,6 +87,7 @@ const initial: QuorumState = {
   mode: "device",
   poolFilter: "auto",
   selectedGenres: [],
+  deckSize: 15,
   moviePool: [],
   currentParticipant: 0,
   votes: {},
@@ -174,6 +176,7 @@ export function startSession(args: {
   leader?: number
   poolFilter: "auto" | "genre"
   selectedGenres: string[]
+  deckSize: number
   moviePool: string[]
 }) {
   setState({
@@ -182,6 +185,7 @@ export function startSession(args: {
     leader: args.leader,
     poolFilter: args.poolFilter,
     selectedGenres: args.selectedGenres,
+    deckSize: args.deckSize,
     moviePool: args.moviePool,
     currentParticipant: 0,
     votes: {},
