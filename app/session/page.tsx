@@ -11,6 +11,7 @@ import {
   Smartphone,
   Sparkles,
   X,
+  Plus,
 } from "lucide-react"
 import { BrandMark } from "@/components/quorum/brand-mark"
 import { GenreTag } from "@/components/quorum/genre-tag"
