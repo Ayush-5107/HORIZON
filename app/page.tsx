@@ -178,7 +178,7 @@ export default function HomePage() {
             <Step
               n="01"
               icon={<Film className="h-8 w-8" />}
-              title="CINEREELS"
+              title="CINESCROLL"
               body="A gesture-driven discovery feed. Save favorites to your private watchlist before the session starts."
               color="bg-secondary"
               delay={0.1}
@@ -280,7 +280,7 @@ function AutoRollingPosterCollage() {
   return (
     <div className="relative z-10 h-[400px] w-full max-w-xl [perspective:1500px]">
       <div className="absolute left-0 top-1 z-40 flex w-[340px] items-center gap-2 brutal-border bg-foreground px-4 py-1.5 font-pixel text-xs font-black uppercase tracking-[0.2em] text-background">
-        <span>AUTO ROLLING REELS</span>
+        <span>AUTO ROLLING CINESCROLL</span>
         <span className="h-2 w-2 bg-primary" />
         <span>LIVE SWAP // 3D MODE</span>
       </div>

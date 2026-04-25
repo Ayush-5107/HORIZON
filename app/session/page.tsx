@@ -297,7 +297,7 @@ export default function SessionPage() {
                   onClick={() => setPoolFilter("auto")}
                   icon={<Sparkles className="h-12 w-12" />}
                   title="AUTO POOL"
-                  body="Quorum picks a balanced mix, prioritizing movies you've liked in CineReels."
+                  body="Quorum picks a balanced mix, prioritizing movies you've liked in Cinescroll."
                   badge="AI-DRIVEN"
                   color="bg-secondary"
                 />
