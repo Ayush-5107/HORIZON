@@ -73,9 +73,9 @@ export default function HomePage() {
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="relative h-[400px] lg:h-auto w-full bg-accent p-8 overflow-hidden flex items-center justify-center"
+          className="hero-cinema-bg relative h-[400px] lg:h-auto w-full p-8 overflow-hidden flex items-center justify-center"
         >
-          <div className="hero-grid absolute inset-0 opacity-20 pointer-events-none" />
+          <div className="hero-grid absolute inset-0 opacity-10 pointer-events-none" />
 
           <AutoRollingPosterCollage />
         </motion.div>
@@ -230,43 +230,22 @@ export default function HomePage() {
 
 function AutoRollingPosterCollage() {
   const posterPool = useMemo(() => {
-    const picks = [12, 0, 4, 6, 9, 2, 14].map((idx) => MOVIES[idx]).filter(Boolean)
-    return picks.length >= 4 ? picks : MOVIES
+    const pickIds = ["m01", "m02", "m03", "m04", "m05"]
+    const picks = pickIds
+      .map((id) => MOVIES.find((movie) => movie.id === id))
+      .filter(Boolean)
+    return picks.length === 5 ? picks : MOVIES.slice(0, 5)
   }, [])
-  const featuredIds = useMemo(() => new Set([MOVIES[0]?.id, MOVIES[4]?.id, MOVIES[12]?.id]), [])
 
   const [lead, setLead] = useState(0)
-  const [cycle, setCycle] = useState(0)
-  const [glitchBurst, setGlitchBurst] = useState(0)
-  const [flashBurst, setFlashBurst] = useState(0)
-  const [featuredSpinKey, setFeaturedSpinKey] = useState(0)
-  const [featuredMovieId, setFeaturedMovieId] = useState<string | null>(null)
 
   useEffect(() => {
     if (posterPool.length < 2) return
     const id = window.setInterval(() => {
-      setLead((v) => {
-        const next = (v + 1) % posterPool.length
-        setCycle((c) => {
-          const nextCycle = c + 1
-          setGlitchBurst(nextCycle)
-          setFlashBurst(nextCycle)
-
-          if (nextCycle % 4 === 0) {
-            const nextMovie = posterPool[next]
-            if (nextMovie && featuredIds.has(nextMovie.id)) {
-              setFeaturedMovieId(nextMovie.id)
-              setFeaturedSpinKey(nextCycle)
-            }
-          }
-
-          return nextCycle
-        })
-        return next
-      })
-    }, 1950)
+      setLead((v) => (v + 1) % posterPool.length)
+    }, 3200)
     return () => window.clearInterval(id)
-  }, [featuredIds, posterPool])
+  }, [posterPool])
 
   const visible = useMemo(() => {
     return posterPool
@@ -274,8 +253,6 @@ function AutoRollingPosterCollage() {
       .filter((item) => Math.abs(item.diff) <= 2)
       .sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))
   }, [lead, posterPool])
-
-  const centerMovie = posterPool[lead]
 
   return (
     <div className="relative z-10 h-[400px] w-full max-w-xl [perspective:1500px]">
@@ -299,17 +276,17 @@ function AutoRollingPosterCollage() {
 
             return (
               <motion.div
-                key={`${item.movie.id}-${cycle}`}
+                key={`${item.movie.id}-${lead}`}
                 initial={{ opacity: 0, x: x * 1.2, z: z - 80, rotateY: rotateY * 1.4, y: y + 18, scale: scale * 0.9 }}
                 animate={{ opacity, x, z, rotateY, y, scale, filter: `blur(${blur}px)` }}
                 exit={{ opacity: 0, x: x * 0.82, z: z - 40, rotateY: rotateY * 0.6, scale: scale * 0.92 }}
-                transition={{ type: "spring", stiffness: 120, damping: 18, mass: 0.8 }}
+                transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute left-1/2 top-1/2 w-[180px] -translate-x-1/2 -translate-y-1/2 sm:w-[210px]"
                 style={{ zIndex: 100 - depth * 10 }}
               >
                 <motion.div
                   animate={{ y: [0, -10, 0], rotateZ: [0, item.diff * 1.6, 0] }}
-                  transition={{ duration: 3.7 + depth * 0.65, repeat: Infinity, ease: "easeInOut" }}
+                  transition={{ duration: 4.8 + depth * 0.6, repeat: Infinity, ease: "easeInOut" }}
                   className="brutal-border bg-card p-1.5 brutal-shadow-lg"
                 >
                   <Poster
@@ -324,60 +301,6 @@ function AutoRollingPosterCollage() {
           })}
         </AnimatePresence>
       </div>
-
-      <AnimatePresence>
-        {flashBurst > 0 && (
-          <motion.div
-            key={`flash-${flashBurst}`}
-            initial={{ opacity: 0.55 }}
-            animate={{ opacity: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.24, ease: "easeOut" }}
-            className="pointer-events-none absolute inset-0 z-50 bg-background"
-          />
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {glitchBurst > 0 && (
-          <motion.div
-            key={`glitch-${glitchBurst}`}
-            initial={{ opacity: 0.9, x: -14 }}
-            animate={{ opacity: [0.95, 0.35, 0], x: [14, -10, 0] }}
-            transition={{ duration: 0.32, ease: "easeOut" }}
-            className="pointer-events-none absolute inset-0 z-50"
-          >
-            <div className="absolute inset-x-0 top-20 h-8 bg-primary/70 mix-blend-multiply" />
-            <div className="absolute inset-x-0 top-40 h-10 bg-secondary/70 mix-blend-multiply" />
-            <div className="absolute inset-x-0 top-60 h-6 bg-destructive/65 mix-blend-multiply" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {featuredMovieId && centerMovie?.id === featuredMovieId && (
-          <motion.div
-            key={`featured-${featuredSpinKey}-${centerMovie.id}`}
-            initial={{ opacity: 0, scale: 0.45, rotateY: -190, rotateZ: -20, y: 80 }}
-            animate={{ opacity: [0, 1, 0], scale: [0.45, 1.12, 1.04], rotateY: [-190, 0, 0], rotateZ: [-20, 5, 0], y: [80, 0, 0] }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.08, ease: "easeOut" }}
-            className="pointer-events-none absolute left-1/2 top-[56%] z-[60] w-[215px] -translate-x-1/2 -translate-y-1/2 sm:w-[245px]"
-          >
-            <div className="brutal-border bg-primary p-1.5 brutal-shadow-lg">
-              <Poster
-                movie={centerMovie}
-                fit="contain"
-                showMeta={false}
-                className="aspect-[2/3] w-full border-0 shadow-none bg-foreground"
-              />
-            </div>
-            <div className="absolute -left-2 -top-2 brutal-border bg-foreground px-2 py-1 font-pixel text-[10px] font-black uppercase tracking-widest text-background">
-              FEATURED
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   )
 }

@@ -93,6 +93,8 @@ export default function DashboardPage() {
             logout()
             router.push("/")
           }}
+          aria-label="Log out"
+          title="Log out"
           className="md:hidden h-12 w-12 brutal-border bg-card flex items-center justify-center brutal-shadow-sm"
         >
           <LogOut className="h-6 w-6" />
@@ -100,11 +102,59 @@ export default function DashboardPage() {
       </header>
 
       <div className="mx-auto w-full max-w-6xl px-5 pt-12 sm:px-10">
-        <div className="grid gap-12 lg:grid-cols-[1fr_380px]">
+        <div className="grid gap-10 lg:grid-cols-[1fr_360px] xl:gap-12">
           {/* Main Content */}
-          <div className="space-y-12">
+          <div className="space-y-8">
+            <section className="brutal-border bg-card p-6 sm:p-8 brutal-shadow">
+              <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b-4 border-foreground pb-5">
+                <div>
+                  <p className="font-pixel text-xs font-black uppercase tracking-[0.22em] opacity-60">Command Matrix</p>
+                  <h2 className="text-3xl font-black uppercase tracking-tighter">Control Overview</h2>
+                </div>
+                <div className="inline-flex items-center gap-2 brutal-border bg-accent px-4 py-2 font-pixel text-xs font-black uppercase tracking-widest brutal-shadow-sm">
+                  <Sparkles className="h-4 w-4" />
+                  Live Status: Stable
+                </div>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-[1.1fr_1fr]">
+                <div className="brutal-border bg-background p-5 brutal-shadow-sm">
+                  <div className="mb-4 flex items-center gap-4">
+                    <div className="h-14 w-14 overflow-hidden brutal-border bg-card p-1 brutal-shadow-sm">
+                      <img src={user.avatar} alt={user.name} className="h-full w-full" />
+                    </div>
+                    <div>
+                      <p className="font-pixel text-[10px] font-black uppercase tracking-widest opacity-60">Operator</p>
+                      <p className="text-2xl font-black uppercase tracking-tighter">{user.name}</p>
+                    </div>
+                  </div>
+                  <p className="font-bold leading-tight opacity-80">
+                    Your command center combines discovery, consensus sessions, and watchlist control in a single operational board.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="brutal-border bg-secondary p-4 brutal-shadow-sm">
+                    <p className="font-pixel text-[10px] font-black uppercase opacity-60">Sessions</p>
+                    <p className="mt-1 text-3xl font-black">{user.history.length}</p>
+                  </div>
+                  <div className="brutal-border bg-primary p-4 brutal-shadow-sm text-primary-foreground">
+                    <p className="font-pixel text-[10px] font-black uppercase opacity-80">Saved Movies</p>
+                    <p className="mt-1 text-3xl font-black">{user.watchlist.length}</p>
+                  </div>
+                  <div className="col-span-2 brutal-border bg-card p-4 brutal-shadow-sm">
+                    <div className="flex items-center gap-2">
+                      <History className="h-4 w-4" />
+                      <p className="font-pixel text-[10px] font-black uppercase tracking-widest opacity-60">Recent Command Insight</p>
+                    </div>
+                    <p className="mt-2 font-bold uppercase tracking-tight">Consensus efficiency is trending up this week.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
             {/* Feature Hub / Quick Actions */}
-            <section className="grid gap-6 lg:grid-cols-2">
+            <section className="grid gap-6 xl:grid-cols-2">
               <Link
                 href="/reels"
                 className="group relative overflow-hidden brutal-border bg-accent p-8 brutal-shadow transition-all hover:translate-y-[-4px] hover:brutal-shadow-lg"
@@ -135,24 +185,29 @@ export default function DashboardPage() {
             </section>
 
             {/* Stats & Insights */}
-            <section className="grid gap-6 sm:grid-cols-3">
-              <div className="brutal-border bg-card p-6 brutal-shadow-sm">
-                <span className="block font-pixel text-xs uppercase opacity-50 mb-2">Total Votes</span>
+            <section className="grid gap-4 sm:grid-cols-3">
+              <div className="brutal-border bg-card p-5 brutal-shadow-sm border-t-8 border-t-secondary">
+                <span className="mb-2 block font-pixel text-xs uppercase opacity-50">Total Votes</span>
                 <div className="text-4xl font-black">1,284</div>
               </div>
-              <div className="brutal-border bg-card p-6 brutal-shadow-sm">
-                <span className="block font-pixel text-xs uppercase opacity-50 mb-2">Watchlist Size</span>
+              <div className="brutal-border bg-card p-5 brutal-shadow-sm border-t-8 border-t-primary">
+                <span className="mb-2 block font-pixel text-xs uppercase opacity-50">Watchlist Size</span>
                 <div className="text-4xl font-black">{user.watchlist.length}</div>
               </div>
-              <div className="brutal-border bg-card p-6 brutal-shadow-sm">
-                <span className="block font-pixel text-xs uppercase opacity-50 mb-2">Consensus Rate</span>
+              <div className="brutal-border bg-card p-5 brutal-shadow-sm border-t-8 border-t-success">
+                <span className="mb-2 block font-pixel text-xs uppercase opacity-50">Consensus Rate</span>
                 <div className="text-4xl font-black">94%</div>
               </div>
             </section>
 
             {/* Tab Switcher */}
-            <div className="space-y-8">
-              <div className="flex brutal-border bg-card p-1.5 brutal-shadow-sm max-w-md">
+            <div className="space-y-6 brutal-border bg-card p-5 sm:p-6 brutal-shadow">
+              <div className="mb-1 flex flex-wrap items-center justify-between gap-3">
+                <h3 className="text-2xl font-black uppercase tracking-tighter">Library Console</h3>
+                <div className="font-pixel text-[10px] font-black uppercase tracking-widest opacity-50">Browse &amp; manage</div>
+              </div>
+
+              <div className="flex brutal-border bg-background p-1.5 brutal-shadow-sm max-w-md">
                 <button 
                   onClick={() => setActiveTab("watchlist")}
                   className={cn(
@@ -205,6 +260,8 @@ export default function DashboardPage() {
                           </button>
                           <button 
                             onClick={() => toggleWatchlist(m.id)}
+                            aria-label={`Remove ${m.title} from watchlist`}
+                            title="Remove from watchlist"
                             className="h-10 w-10 brutal-border bg-background flex items-center justify-center text-destructive brutal-shadow-sm hover:scale-110 transition-transform"
                           >
                             <Heart className="h-5 w-5 fill-current" />
@@ -254,7 +311,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Sidebar */}
-          <aside className="space-y-8">
+          <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
             <div className="brutal-border bg-card p-8 brutal-shadow border-t-[12px] border-t-accent">
               <h2 className="text-2xl font-black uppercase tracking-tighter mb-6">SYSTEM STATS</h2>
               <div className="grid gap-4">

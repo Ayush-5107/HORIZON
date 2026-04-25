@@ -65,11 +65,7 @@ export default function ReelsPage() {
           <ArrowLeft className="h-4 w-4" />
         </Link>
 
-        <div
-          role="tablist"
-          aria-label="Reel feed"
-          className="flex rounded-full border border-border/60 bg-background/40 p-1 backdrop-blur"
-        >
+        <div className="flex rounded-full border border-border/60 bg-background/40 p-1 backdrop-blur">
           {(
             [
               { id: "for-you", label: "For You" },
@@ -78,8 +74,6 @@ export default function ReelsPage() {
           ).map((t) => (
             <button
               key={t.id}
-              role="tab"
-              aria-selected={tab === t.id}
               onClick={() => setTab(t.id)}
               className={cn(
                 "rounded-full px-4 py-1.5 text-sm font-medium transition",
