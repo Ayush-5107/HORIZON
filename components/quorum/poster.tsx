@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils"
 import type { Movie } from "@/lib/movies"
 import { toggleWatchlist, useStore } from "@/lib/store"
 import { Heart } from "lucide-react"
+import { useEffect, useState } from "react"
 
 type Props = {
   movie: Movie
@@ -14,6 +15,11 @@ type Props = {
 export function Poster({ movie, className, width = 600, height = 900 }: Props) {
   const user = useStore((s) => s.user)
   const isWatched = user?.watchlist.includes(movie.id)
+
+  // Prevent hydration mismatch: user comes from sessionStorage which
+  // doesn't exist on the server. Only render user-dependent UI after mount.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
 
   const src = movie.posterQuery.startsWith("http") 
     ? movie.posterQuery 
@@ -32,8 +38,8 @@ export function Poster({ movie, className, width = 600, height = 900 }: Props) {
       {/* Vignette Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent opacity-60 pointer-events-none" />
 
-      {/* Watchlist Toggle */}
-      {user && (
+      {/* Watchlist Toggle — client-only to avoid hydration mismatch */}
+      {mounted && user && (
         <button 
           onClick={(e) => {
             e.stopPropagation()
