@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { BrandMark } from "@/components/quorum/brand-mark"
 import { setState, tallyVotes, useStore } from "@/lib/store"
@@ -22,6 +22,7 @@ export default function RevealPage() {
   }, [isRepoll, votes, moviePool, repollVotes, tiedFromState])
 
   const [count, setCount] = useState(5)
+  const transitionTriggered = useRef(false)
 
   useEffect(() => {
     if (phase !== "reveal" && phase !== "repoll" && phase !== "debate") {
@@ -31,12 +32,12 @@ export default function RevealPage() {
 
   useEffect(() => {
     if (count <= 0) {
-      // Only proceed if we're still in a phase that should be revealing.
-      // This prevents the infinite loop described in the stack trace.
-      if (phase !== "reveal" && phase !== "repoll") return
+      if (transitionTriggered.current) return
+      transitionTriggered.current = true
 
       const winner = tally.tied.length > 1 && !isRepoll ? undefined : tally.ranked[0]?.movieId
       const tied = tally.tied
+      
       if (tied.length > 1 && !isRepoll) {
         setState({ phase: "debate", tied })
         router.replace("/debate")
