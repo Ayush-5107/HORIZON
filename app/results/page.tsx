@@ -28,6 +28,7 @@ export default function ResultsPage() {
   )
 
   const winner = winnerId ? getMovieById(winnerId) : getMovieById(fullTally.ranked[0]?.movieId ?? "")
+  const winnerRow = fullTally.ranked.find((r) => r.movieId === (winner?.id ?? ""))
   const top3 = fullTally.ranked.slice(0, 3)
   const cameFromTie = repollTally !== null
 
@@ -115,6 +116,29 @@ export default function ResultsPage() {
                   {winner.runtime}m
                 </div>
               </div>
+
+              {winnerRow && (
+                <div className="space-y-4">
+                  <p className="font-pixel text-xs uppercase tracking-widest opacity-70">Victory Statistics</p>
+                  <div className="flex flex-wrap gap-4">
+                    <div className="flex items-center gap-3 brutal-border bg-secondary text-secondary-foreground px-5 py-2">
+                      <Heart className="h-5 w-5" />
+                      <span className="font-pixel text-2xl font-black">{winnerRow.counts.love}</span>
+                      <span className="text-xs font-bold uppercase">Loves</span>
+                    </div>
+                    <div className="flex items-center gap-3 brutal-border bg-success text-success-foreground px-5 py-2">
+                      <ThumbsUp className="h-5 w-5" />
+                      <span className="font-pixel text-2xl font-black">{winnerRow.counts.yes}</span>
+                      <span className="text-xs font-bold uppercase">Yeses</span>
+                    </div>
+                    <div className="flex items-center gap-3 brutal-border bg-destructive text-destructive-foreground px-5 py-2">
+                      <ThumbsDown className="h-5 w-5" />
+                      <span className="font-pixel text-2xl font-black">{winnerRow.counts.no}</span>
+                      <span className="text-xs font-bold uppercase">Nos</span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <p className="max-w-xl text-xl font-bold leading-tight opacity-90 font-sans border-l-4 border-foreground pl-6 py-2">
                 {winner.synopsis}
