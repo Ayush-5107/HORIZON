@@ -1,0 +1,165 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/*
+  Project Quorum — Neobrutalist Theme
+  Hard edges, thick borders, high contrast.
+*/
+
+:root {
+  --background: oklch(0.98 0.01 100); /* Crisp off-white */
+  --foreground: oklch(0.12 0.01 20); /* Deep charcoal black */
+
+  --card: oklch(1.0 0.0 0); /* Pure white */
+  --card-foreground: oklch(0.12 0.01 20);
+
+  --popover: oklch(1.0 0.0 0);
+  --popover-foreground: oklch(0.12 0.01 20);
+
+  --primary: oklch(0.75 0.25 350); /* Vibrant Hot Pink */
+  --primary-foreground: oklch(0.12 0.01 20);
+
+  --secondary: oklch(0.85 0.2 200); /* Electric Cyan */
+  --secondary-foreground: oklch(0.12 0.01 20);
+
+  --muted: oklch(0.92 0.01 200); /* Soft gray-blue */
+  --muted-foreground: oklch(0.4 0.02 200);
+
+  --accent: oklch(0.82 0.22 140); /* Neon Lime */
+  --accent-foreground: oklch(0.12 0.01 20);
+
+  --destructive: oklch(0.6 0.25 25); /* Intense Red */
+  --destructive-foreground: oklch(0.98 0.01 100);
+
+  --success: oklch(0.78 0.2 150); /* Emerald Green */
+  --success-foreground: oklch(0.12 0.01 20);
+
+  --warning: oklch(0.88 0.2 85); /* Bright Yellow-Orange */
+  --warning-foreground: oklch(0.12 0.01 20);
+
+  --border: oklch(0.12 0.01 20);
+  --input: oklch(1.0 0.0 0);
+  --ring: oklch(0.75 0.25 350);
+
+  --radius: 0px; /* Rigid neobrutal edges */
+}
+
+@theme inline {
+  --font-sans: var(--font-sans), 'Space Grotesk', system-ui, sans-serif;
+  --font-pixel: var(--font-pixel), 'VT323', monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-xl: var(--radius);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html,
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+@utility brutal-border {
+  border-width: 4px;
+  border-style: solid;
+  border-color: var(--foreground);
+}
+
+@utility brutal-shadow {
+  box-shadow: 4px 4px 0px var(--foreground);
+}
+
+@utility brutal-shadow-sm {
+  box-shadow: 2px 2px 0px var(--foreground);
+}
+
+@utility brutal-shadow-lg {
+  box-shadow: 8px 8px 0px var(--foreground);
+}
+
+@utility brutal-shadow-hover {
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--foreground);
+  }
+}
+
+@utility brutal-shadow-active {
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--foreground);
+  }
+}
+
+@utility brutal-shadow-primary {
+  box-shadow: 4px 4px 0px var(--primary);
+}
+
+@utility brutal-shadow-secondary {
+  box-shadow: 4px 4px 0px var(--secondary);
+}
+
+@utility brutal-shadow-accent {
+  box-shadow: 4px 4px 0px var(--accent);
+}
+
+@utility neo-cutout {
+  @apply brutal-border bg-background brutal-shadow-sm transition-all;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 90% 100%, 0% 100%);
+}
+
+@utility grain {
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
+  }
+}
+
+@utility pixel-dither {
+  image-rendering: pixelated;
+  filter: contrast(1.2) grayscale(0.2);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
