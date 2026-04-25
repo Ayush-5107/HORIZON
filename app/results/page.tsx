@@ -116,7 +116,7 @@ export default function ResultsPage() {
           <div className="relative grid gap-0 lg:grid-cols-[280px_1fr]">
             {/* Poster */}
             <div className="relative aspect-[2/3] max-h-[420px] overflow-hidden border-b-4 lg:border-b-0 lg:border-r-4 border-foreground group">
-              <Poster movie={winner} className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+              <Poster movie={winner} showMeta={false} className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
               
               <motion.div 
@@ -243,7 +243,7 @@ export default function ResultsPage() {
                   
                   <div className="flex gap-4">
                     <div className="relative h-36 w-24 shrink-0 overflow-hidden brutal-border brutal-shadow-sm">
-                      <Poster movie={m} className="h-full w-full" />
+                      <Poster movie={m} showMeta={false} className="h-full w-full" />
                     </div>
                     <div className="flex-1 flex flex-col justify-between py-1">
                       <div>
