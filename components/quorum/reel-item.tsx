@@ -45,27 +45,27 @@ export function ReelItem({ movie, onOpenReviews }: Props) {
           <div className="max-w-xl">
             <div className="flex flex-wrap items-center gap-2">
               <GenreTag genre={movie.genre} />
-              <span className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/40 px-2.5 py-0.5 text-xs text-foreground/90 backdrop-blur">
+              <span className="inline-flex items-center gap-1 brutal-border bg-background px-3 py-1 font-pixel text-[10px] font-black uppercase text-foreground brutal-shadow-sm">
                 <Star className="h-3 w-3 fill-primary text-primary" />
                 {movie.rating.toFixed(1)}
               </span>
-              <span className="rounded-full border border-border/60 bg-background/40 px-2.5 py-0.5 text-xs text-foreground/90 backdrop-blur">
+              <span className="brutal-border bg-background px-3 py-1 font-pixel text-[10px] font-black uppercase text-foreground brutal-shadow-sm">
                 {formatRuntime(movie.runtime)}
               </span>
-              <span className="rounded-full border border-border/60 bg-background/40 px-2.5 py-0.5 text-xs text-foreground/90 backdrop-blur">
+              <span className="brutal-border bg-background px-3 py-1 font-pixel text-[10px] font-black uppercase text-foreground brutal-shadow-sm">
                 {movie.year}
               </span>
             </div>
 
-            <h2 className="mt-4 text-balance font-serif text-4xl leading-[1.05] tracking-tight sm:text-5xl">
+            <h2 className="mt-4 text-balance font-sans text-5xl font-black uppercase tracking-tighter leading-none sm:text-6xl text-background drop-shadow-md">
               {movie.title}
             </h2>
 
-            <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-foreground/85 sm:text-base">
+            <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-background font-bold drop-shadow-md sm:text-base border-l-4 border-primary pl-4">
               {movie.synopsis}
             </p>
 
-            <p className="mt-4 text-xs text-muted-foreground">
+            <p className="mt-4 font-pixel text-[10px] font-black uppercase text-background drop-shadow-md">
               <span className="text-primary">{formatCount(movie.socialProof)}</span> people liked this
               {movie.director ? <> · dir. {movie.director}</> : null}
             </p>
@@ -138,14 +138,16 @@ function ActionButton({
     >
       <span
         className={cn(
-          "flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-background/40 text-foreground backdrop-blur transition active:scale-95",
-          active && activeClass,
-          active && "border-current/40",
+          "flex h-12 w-12 items-center justify-center brutal-border transition-all active:translate-y-1 hover:-translate-y-1 hover:brutal-shadow brutal-shadow-sm",
+          active ? `bg-foreground text-background` : "bg-card text-foreground"
         )}
       >
         {children}
       </span>
-      <span className="text-[10px] font-medium uppercase tracking-wider text-foreground/80">
+      <span className={cn(
+        "font-pixel text-[10px] font-black uppercase tracking-widest",
+        active ? activeClass : "text-foreground drop-shadow-md"
+      )}>
         {label}
       </span>
     </button>

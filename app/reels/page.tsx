@@ -60,15 +60,15 @@ export default function ReelsPage() {
         <Link
           href="/"
           aria-label="Back home"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-background/40 text-foreground backdrop-blur"
+          className="flex h-10 w-10 items-center justify-center brutal-border bg-card text-foreground brutal-shadow-sm hover:brutal-shadow transition-all hover:-translate-y-1"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-5 w-5" />
         </Link>
 
         <div
           role="tablist"
           aria-label="Reel feed"
-          className="flex rounded-full border border-border/60 bg-background/40 p-1 backdrop-blur"
+          className="flex brutal-border bg-card p-1 brutal-shadow-sm"
         >
           {(
             [
@@ -82,10 +82,10 @@ export default function ReelsPage() {
               aria-selected={tab === t.id}
               onClick={() => setTab(t.id)}
               className={cn(
-                "rounded-full px-4 py-1.5 text-sm font-medium transition",
+                "px-4 py-1.5 font-pixel text-[10px] font-black uppercase tracking-widest transition-all brutal-border",
                 tab === t.id
-                  ? "bg-foreground text-background"
-                  : "text-foreground/80 hover:text-foreground",
+                  ? "bg-primary text-primary-foreground brutal-shadow translate-y-[-2px]"
+                  : "bg-transparent text-foreground/80 hover:bg-muted border-transparent"
               )}
             >
               {t.label}
@@ -95,7 +95,7 @@ export default function ReelsPage() {
 
         <Link
           href="/session"
-          className="rounded-full bg-primary px-3.5 py-2 text-xs font-medium text-primary-foreground"
+          className="brutal-border bg-success px-4 py-2 font-pixel text-[10px] font-black uppercase tracking-widest text-success-foreground brutal-shadow-sm hover:brutal-shadow hover:-translate-y-1 transition-all"
         >
           Start
         </Link>
@@ -115,7 +115,7 @@ export default function ReelsPage() {
 
       {/* hint */}
       <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20 flex justify-center">
-        <span className="rounded-full border border-border/60 bg-background/40 px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground backdrop-blur">
+        <span className="brutal-border bg-foreground text-background px-4 py-2 font-pixel text-[10px] font-black uppercase tracking-widest brutal-shadow-sm">
           Scroll to explore · tap to react
         </span>
       </div>
